@@ -2,7 +2,7 @@ name: foodie-api-backend
 on: 
   pull_request:
     branches:
-      - development
+      - develop
 jobs:
   check-application:
     runs-on: ubuntu-latest
