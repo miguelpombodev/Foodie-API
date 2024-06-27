@@ -2,7 +2,7 @@ name: foodie-api-backend
 on: 
   pull_request:
     branches:
-      - development
+      - develop
 jobs:
   check-application:
     runs-on: ubuntu-latest
@@ -33,5 +33,8 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Restore dependencies
+        run: dotnet restore
+
       - name: Installing Project Dependencies
-        run: dotnet build ./Src/FoodieAPI.Web/
+        run: dotnet build --no-restore ./Src/FoodieAPI.Web/
