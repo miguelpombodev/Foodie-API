@@ -1,6 +1,6 @@
 name: foodie-api-backend
 on: 
-  pull_request:
+  push:
     branches:
       - develop
 jobs:
