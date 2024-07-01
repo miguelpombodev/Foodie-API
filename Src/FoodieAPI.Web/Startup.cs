@@ -18,7 +18,9 @@ namespace FoodieAPI.Web
     {
       services.AddDbContext<DataContext>();
       services.AddScoped<IUserRepository, UsersRepository>();
+      services.AddScoped<IStoreRepository, StoreRepository>();
       services.AddScoped<IUserService, UserService>();
+      services.AddScoped<IStoreService, StoreService>();
 
       services.AddControllers().AddNewtonsoftJson(options =>
       {
