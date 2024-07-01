@@ -1,0 +1,4 @@
+{
+  "dotnet.defaultSolution": "FoodieAPI.sln",
+  "editor.formatOnSave": true
+}
