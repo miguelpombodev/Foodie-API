@@ -22,7 +22,7 @@ namespace FoodieAPI.Infra.Repositories
 
     public async Task<List<Store>> GetStoreListAsync()
     {
-      List<Store> storesList = await _DataContext.Set<Store>().ToListAsync();
+      List<Store> storesList = await _DataContext.Set<Store>().Include(store => store.StoreCategories).ToListAsync();
 
       return storesList;
     }

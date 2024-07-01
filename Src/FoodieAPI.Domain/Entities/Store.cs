@@ -31,6 +31,6 @@ namespace FoodieAPI.Domain.Entities
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public StoreType StoreType { get; set; }
-    public virtual IList<StoreCategory> StoreCategories { get; set; }
+    public IList<StoreCategory> StoreCategories { get; set; }
   }
 }
