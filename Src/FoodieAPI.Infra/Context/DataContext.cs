@@ -8,8 +8,9 @@ namespace FoodieAPI.Infra.Context
   public class DataContext : DbContext
   {
 
-    public DbSet<Store> Stores { get; set; }
-    public DbSet<StoreCategory> StoreCategories { get; set; }
+    // public DbSet<User> Users { get; set; }
+    // public DbSet<Store> Stores { get; set; }
+    // public DbSet<StoreCategory> StoreCategories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {

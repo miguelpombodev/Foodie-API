@@ -19,5 +19,19 @@ namespace FoodieAPI.Services.Implementations
 
       return categoriesList;
     }
+
+    public async Task<List<StoreType>> GetStoreCategoriesTypesListAsync()
+    {
+      List<StoreType> storeTypesList = await _repository.GetStoreTypesListAsync();
+
+      return storeTypesList;
+    }
+
+    public async Task<List<Store>> GetStoreListAsync()
+    {
+      List<Store> storesList = await _repository.GetStoreListAsync();
+
+      return storesList;
+    }
   }
 }

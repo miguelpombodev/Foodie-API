@@ -11,7 +11,7 @@ namespace FoodieAPI.Infra.Mappings
       builder.ToTable("stores_categories");
       builder.HasKey(col => col.Id);
 
-      builder.Property(col => col.Id).HasColumnName("Id").HasColumnType("UniqueIdentifier").HasMaxLength(30).IsRequired();
+      builder.Property(col => col.Id).HasColumnType("UniqueIdentifier");
       builder.Property(col => col.Title).HasColumnName("Title").HasColumnType("NVARCHAR").HasMaxLength(30).IsRequired();
       builder.Property(col => col.StoreId).HasColumnName("Store_Id").HasColumnType("UniqueIdentifier").IsRequired();
 

@@ -24,9 +24,6 @@ namespace FoodieAPI.Infra.Mappings
       builder.Property(x => x.CreatedAt).HasColumnName("Created_At").HasColumnType("DATETIME").HasDefaultValue(DateTime.Now.ToUniversalTime());
       builder.Property(x => x.UpdatedAt).HasColumnName("Updated_At").HasColumnType("DATETIME").HasDefaultValue(DateTime.Now.ToUniversalTime());
       builder.Property(x => x.CEP).HasColumnName("CEP").HasColumnType("VARCHAR").HasMaxLength(8).IsRequired();
-
-
-      builder.HasMany(storeCol => storeCol.StoreCategories).WithOne(storeCategoryCol => storeCategoryCol.Store).HasConstraintName("FK_PRODUCT_STORECATEGORY").HasForeignKey(storeCategoryCol => storeCategoryCol.StoreId);
     }
   }
 }

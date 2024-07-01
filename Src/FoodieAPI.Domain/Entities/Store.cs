@@ -2,7 +2,7 @@ namespace FoodieAPI.Domain.Entities
 {
   public class Store : BaseEntity
   {
-    public Store(string name, string avatar, int storeTypeId, string description, decimal orderMinValue, DateTime openAt, DateTime closedAt, string address, string cNPJ, string cEP, DateTime createdAt, DateTime updatedAt)
+    public Store(string name, string avatar, int storeTypeId, string description, decimal orderMinValue, TimeOnly openAt, TimeOnly closedAt, string address, string cNPJ, string cEP, DateTime createdAt, DateTime updatedAt)
     {
       Name = name;
       Avatar = avatar;
@@ -23,8 +23,8 @@ namespace FoodieAPI.Domain.Entities
     public int StoreTypeId { get; set; }
     public string Description { get; set; }
     public decimal OrderMinValue { get; set; }
-    public DateTime OpenAt { get; set; }
-    public DateTime ClosedAt { get; set; }
+    public TimeOnly OpenAt { get; set; }
+    public TimeOnly ClosedAt { get; set; }
     public string Address { get; set; }
     public string CNPJ { get; set; }
     public string CEP { get; set; }

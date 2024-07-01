@@ -14,14 +14,36 @@ namespace FoodieAPI.Web.Controllers
       _service = storeService;
     }
 
-    [HttpGet("/categories")]
-    public async Task<IActionResult> GetStoreCategoriesList()
+    [HttpGet("")]
+    public async Task<IActionResult> GetStoresListAsync()
     {
-      var storeCateoriesList = await _service.GetStoreCategoriesListAsync();
+      var storeList = await _service.GetStoreListAsync();
 
       return StatusCode(
         StatusCodes.Status200OK,
-        storeCateoriesList
+        storeList
+      );
+    }
+
+    [HttpGet("/categories")]
+    public async Task<IActionResult> GetStoreCategoriesList()
+    {
+      var storeCategoriesList = await _service.GetStoreCategoriesListAsync();
+
+      return StatusCode(
+        StatusCodes.Status200OK,
+        storeCategoriesList
+      );
+    }
+
+    [HttpGet("/types")]
+    public async Task<IActionResult> GetStoreCategoriesTypes()
+    {
+      var storeTypesList = await _service.GetStoreCategoriesTypesListAsync();
+
+      return StatusCode(
+        StatusCodes.Status200OK,
+        storeTypesList
       );
     }
   }

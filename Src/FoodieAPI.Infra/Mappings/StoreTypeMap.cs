@@ -11,7 +11,7 @@ namespace FoodieAPI.Infra.Mappings
       builder.ToTable("store_types");
       builder.HasKey(x => x.Id);
 
-      builder.Property(col => col.Id).HasColumnType("UniqueIdentifier");
+      builder.Property(col => col.Id).HasColumnType("int");
       builder.Property(col => col.Name).HasColumnName("Name").HasColumnType("NVARCHAR").HasMaxLength(50).IsRequired();
       builder.Property(x => x.CreatedAt).HasColumnName("Created_At").HasColumnType("DATETIME").HasDefaultValue(DateTime.Now.ToUniversalTime());
       builder.Property(x => x.UpdatedAt).HasColumnName("Updated_At").HasColumnType("DATETIME").HasDefaultValue(DateTime.Now.ToUniversalTime());
