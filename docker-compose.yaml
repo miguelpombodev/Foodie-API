@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  foodie_api_container:
+    build:
+      context: .
+    container_name: foodie_api_backend
+    ports:
+      - "8080:8080"
+    networks:
+      - foodie_net
+    depends_on:
+      - foodie_db
+
+  foodie_db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=123456QWERT@#
+    networks:
+      - foodie_net
+networks:
+  foodie_net:
+    driver: bridge
