@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodieAPI.Web.Controllers
 {
-  [Route("v1/store")]
+  [Route("store")]
   [ApiController]
   public class StoreController : ControllerBase
   {
@@ -14,7 +14,7 @@ namespace FoodieAPI.Web.Controllers
       _service = storeService;
     }
 
-    [HttpGet("")]
+    [HttpGet("v1/", Name = "Get List of Stores")]
     public async Task<IActionResult> GetStoresListAsync()
     {
       var storeList = await _service.GetStoreListAsync();
@@ -25,7 +25,7 @@ namespace FoodieAPI.Web.Controllers
       );
     }
 
-    [HttpGet("/categories")]
+    [HttpGet("v1/categories", Name = "Get List of Stores Categories")]
     public async Task<IActionResult> GetStoreCategoriesList()
     {
       var storeCategoriesList = await _service.GetStoreCategoriesListAsync();
@@ -36,7 +36,7 @@ namespace FoodieAPI.Web.Controllers
       );
     }
 
-    [HttpGet("/types")]
+    [HttpGet("v1/types", Name = "Get List of Stores Categories Types")]
     public async Task<IActionResult> GetStoreCategoriesTypes()
     {
       var storeTypesList = await _service.GetStoreCategoriesTypesListAsync();
