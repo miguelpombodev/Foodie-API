@@ -7,6 +7,8 @@ services:
     container_name: foodie_api_backend
     ports:
       - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     networks:
       - foodie_net
     depends_on:
