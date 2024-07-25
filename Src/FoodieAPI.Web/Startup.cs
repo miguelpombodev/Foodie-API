@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using FoodieAPI.Domain.Interfaces.Repositories;
 using FoodieAPI.Domain.Interfaces.Services;
 using FoodieAPI.Infra.Configuration;
@@ -6,7 +5,6 @@ using FoodieAPI.Infra.Context;
 using FoodieAPI.Infra.Repositories;
 using FoodieAPI.Services.Implementations;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FoodieAPI.Web
 {
@@ -21,6 +19,8 @@ namespace FoodieAPI.Web
       services.AddScoped<IStoreRepository, StoreRepository>();
       services.AddScoped<IUserService, UserService>();
       services.AddScoped<IStoreService, StoreService>();
+
+      services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
 
       services.AddControllers().AddNewtonsoftJson(options =>
       {
