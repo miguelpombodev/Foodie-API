@@ -20,6 +20,16 @@ namespace FoodieAPI.Web
       services.AddScoped<IUserService, UserService>();
       services.AddScoped<IStoreService, StoreService>();
 
+      services.AddCors(options =>
+          {
+            options.AddPolicy(name: "_myAllowSpecificOrigins", policy =>
+            {
+              policy.AllowAnyOrigin();
+              policy.AllowAnyHeader();
+              policy.AllowAnyMethod();
+            });
+          });
+
       services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
 
       services.AddControllers().AddNewtonsoftJson(options =>
@@ -32,6 +42,7 @@ namespace FoodieAPI.Web
             {
               config.SwaggerDoc("v1", new OpenApiInfo { Title = "FoodieAPI", Version = "v1" });
             });
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -56,9 +67,9 @@ namespace FoodieAPI.Web
       //                                   }
       //                                   });
 
-      // app.UseCors(corsOrigins);
+      app.UseCors("_myAllowSpecificOrigins");
       // app.UseAuthentication();
-      // app.UseAuthorization();
+      app.UseAuthorization();
 
       AppConfiguration.MainDatabaseConnectionString = Configuration.GetConnectionString("MainDatabase");
 
