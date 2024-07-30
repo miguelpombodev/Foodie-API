@@ -12,9 +12,14 @@ public class ProductService : IProductsService
     _repository = productRepository;
   }
 
-  public async Task<List<Dictionary<string, dynamic>>> GetUserCustomsProductsListAsync()
+  public async Task<List<Dictionary<string, dynamic>>> GetUserCustomsProductsListAsync(
+    string storeTypeName,
+    string categoryTitle
+  )
   {
-    var products = await _repository.GetUserCustomsProductsListAsync();
+    var products = await _repository.GetUserCustomsProductsListAsync(
+      storeTypeName, categoryTitle
+    );
 
     return products;
   }

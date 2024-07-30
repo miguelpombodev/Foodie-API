@@ -16,9 +16,12 @@ namespace FoodieAPI.Web.Controllers
     }
 
     [HttpGet("v1/customs")]
-    public async Task<IActionResult> GetUserCustomizedProductsListAsync()
+    public async Task<IActionResult> GetUserCustomizedProductsListAsync(
+      [FromQuery] string storeTypeName,
+      [FromQuery] string categoryTitle
+    )
     {
-      var products = await _service.GetUserCustomsProductsListAsync();
+      var products = await _service.GetUserCustomsProductsListAsync(storeTypeName, categoryTitle);
 
       return StatusCode(
         StatusCodes.Status200OK,

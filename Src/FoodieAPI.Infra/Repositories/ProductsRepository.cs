@@ -16,7 +16,10 @@ public class ProductsRepository : IProductRepository
     _DataContext = dataContext;
   }
 
-  public async Task<List<Dictionary<string, dynamic>>> GetUserCustomsProductsListAsync()
+  public async Task<List<Dictionary<string, dynamic>>> GetUserCustomsProductsListAsync(
+    string storeTypeName,
+    string categoryTitle
+  )
   {
     List<Dictionary<string, dynamic>> formattedList = [];
 
@@ -44,8 +47,8 @@ public class ProductsRepository : IProductRepository
         storeCategory
       }
     ).Where(
-      p => p.secondJoin.firstJoin.st.Name == "Lanches"
-    ).Where(p => p.storeCategory.Title == "Sanduíches").Select(p => new
+      p => p.secondJoin.firstJoin.st.Name == storeTypeName
+    ).Where(p => p.storeCategory.Title == categoryTitle).Select(p => new
     {
       p.secondJoin.product.Avatar,
       p.secondJoin.product.Name,
