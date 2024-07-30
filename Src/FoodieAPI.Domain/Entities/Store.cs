@@ -32,5 +32,6 @@ namespace FoodieAPI.Domain.Entities
     public DateTime UpdatedAt { get; set; }
     public StoreType StoreType { get; set; }
     public IList<StoreCategory> StoreCategories { get; set; }
+    public IList<Product> Products { get; set; }
   }
 }

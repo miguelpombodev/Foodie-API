@@ -1,8 +1,11 @@
+using FoodieAPI.Domain;
 using FoodieAPI.Domain.Interfaces.Repositories;
 using FoodieAPI.Domain.Interfaces.Services;
+using FoodieAPI.Infra;
 using FoodieAPI.Infra.Configuration;
 using FoodieAPI.Infra.Context;
 using FoodieAPI.Infra.Repositories;
+using FoodieAPI.Services;
 using FoodieAPI.Services.Implementations;
 using Microsoft.OpenApi.Models;
 
@@ -17,8 +20,10 @@ namespace FoodieAPI.Web
       services.AddDbContext<DataContext>();
       services.AddScoped<IUserRepository, UsersRepository>();
       services.AddScoped<IStoreRepository, StoreRepository>();
+      services.AddScoped<IProductRepository, ProductsRepository>();
       services.AddScoped<IUserService, UserService>();
       services.AddScoped<IStoreService, StoreService>();
+      services.AddScoped<IProductsService, ProductService>();
 
       services.AddCors(options =>
           {

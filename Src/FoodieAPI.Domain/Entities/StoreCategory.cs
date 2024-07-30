@@ -5,5 +5,6 @@ namespace FoodieAPI.Domain.Entities
     public string Title { get; set; }
     public Guid StoreId { get; set; }
     public Store? Store { get; set; }
+    public IEnumerable<Product> Products { get; set; }
   }
 }

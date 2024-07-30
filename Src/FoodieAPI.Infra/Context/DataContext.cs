@@ -15,6 +15,7 @@ namespace FoodieAPI.Infra.Context
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
       options.UseSqlServer(AppConfiguration.MainDatabaseConnectionString);
+      options.LogTo(Console.WriteLine);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,6 +24,7 @@ namespace FoodieAPI.Infra.Context
       modelBuilder.ApplyConfiguration(new StoreCategoryMap());
       modelBuilder.ApplyConfiguration(new StoreTypeMap());
       modelBuilder.ApplyConfiguration(new StoreMap());
+      modelBuilder.ApplyConfiguration(new ProductMap());
     }
 
   }
