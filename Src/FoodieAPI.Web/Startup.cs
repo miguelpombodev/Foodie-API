@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 using FoodieAPI.Domain;
+=======
+>>>>>>> d7a86c3d0da412edda2e674c0c7312cbeff98ef9
 using FoodieAPI.Domain.Interfaces.Repositories;
 using FoodieAPI.Domain.Interfaces.Services;
 using FoodieAPI.Infra;
@@ -34,6 +37,8 @@ namespace FoodieAPI.Web
               policy.AllowAnyMethod();
             });
           });
+
+      services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
 
       services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
 
