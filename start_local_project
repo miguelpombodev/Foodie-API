@@ -1,0 +1,3 @@
+dotnet clean
+dotnet build
+dotnet watch --project ./Src/FoodieAPI.Web/FoodieAPI.Web.csproj
