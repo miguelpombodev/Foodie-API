@@ -15,10 +15,10 @@ namespace FoodieAPI.Web.Controllers
       _service = service;
     }
 
-    [HttpGet("v1/customs")]
+    [HttpGet("v1/customs/{storeTypeName}")]
     public async Task<IActionResult> GetUserCustomizedProductsListAsync(
-      [FromQuery] string storeTypeName,
-      [FromQuery] string categoryTitle
+      string storeTypeName,
+      [FromQuery] string? categoryTitle
     )
     {
       var products = await _service.GetUserCustomsProductsListAsync(storeTypeName, categoryTitle);

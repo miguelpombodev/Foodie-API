@@ -4,7 +4,7 @@ namespace FoodieAPI.Domain.Interfaces.Repositories
   {
     Task<List<Dictionary<string, dynamic>>> GetUserCustomsProductsListAsync(
       string storeTypeName,
-      string categoryTitle
+      string? categoryTitle
     );
   }
 }

@@ -6,6 +6,6 @@ public interface IProductsService
 {
   Task<List<Dictionary<string, dynamic>>> GetUserCustomsProductsListAsync(
     string storeTypeName,
-    string categoryTitle
+    string? categoryTitle
   );
 }
