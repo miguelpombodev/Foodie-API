@@ -18,49 +18,42 @@ public class ProductsRepository : IProductRepository
 
   public async Task<List<Dictionary<string, dynamic>>> GetUserCustomsProductsListAsync(
     string storeTypeName,
-    string categoryTitle
+    string? categoryTitle
   )
   {
-    List<Dictionary<string, dynamic>> formattedList = [];
-
-    var x = await _DataContext.Set<StoreType>().Join(
+    var customProductsQuery = _DataContext.Set<StoreType>().Join(
       _DataContext.Set<Store>(),
-      st => st.Id,
-      s => s.StoreTypeId,
-      (st, s) => new { st, s }
+      storeType => storeType.Id,
+      store => store.StoreTypeId,
+      (storeType, store) => new { storeType, store }
     ).Join(
       _DataContext.Set<Product>(),
-      firstJoin => firstJoin.s.Id,
+      storeTypeJoinStore => storeTypeJoinStore.store.Id,
       product => product.StoreId,
-      (firstJoin, product) => new
+      (storeTypeJoinStore, product) => new
       {
-        firstJoin,
+        storeTypeJoinStore,
         product
       }
     ).Join(
       _DataContext.Set<StoreCategory>(),
-      secondJoin => secondJoin.product.StoreCategoryId,
+      storeJoinProduct => storeJoinProduct.product.StoreCategoryId,
       storeCategory => storeCategory.Id,
-      (secondJoin, storeCategory) => new
+      (storeJoinProduct, storeCategory) => new
       {
-        secondJoin,
+        storeJoinProduct,
         storeCategory
       }
     ).Where(
-      p => p.secondJoin.firstJoin.st.Name == storeTypeName
-    ).Where(p => p.storeCategory.Title == categoryTitle).Select(p => new
-    {
-      p.secondJoin.product.Avatar,
-      p.secondJoin.product.Name,
-    }).ToListAsync();
+      param => param.storeJoinProduct.storeTypeJoinStore.storeType.Name == storeTypeName
+    );
 
-    foreach (var item in x)
+    if (categoryTitle != null)
     {
-      var s = new Dictionary<string, dynamic> { { "name", item.Name }, { "avatar", item.Avatar } };
-
-      formattedList.Add(s);
+      customProductsQuery = customProductsQuery.Where(param => param.storeCategory.Title == categoryTitle);
     }
 
-    return formattedList;
+    return await customProductsQuery.Select(param =>
+    new Dictionary<string, dynamic> { { "name", param.storeJoinProduct.product.Name }, { "avatar", param.storeJoinProduct.product.Avatar } }).ToListAsync(); ;
   }
 }

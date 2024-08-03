@@ -1,4 +1,5 @@
 using FoodieAPI.Domain.Entities;
+using FoodieAPI.Domain.DTO.Responses;
 using FoodieAPI.Domain.Interfaces.Repositories;
 using FoodieAPI.Infra.Context;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +21,20 @@ namespace FoodieAPI.Infra.Repositories
       return storeCategoriesList;
     }
 
-    public async Task<List<Store>> GetStoreListAsync()
+    public async Task<List<ListStoreResponseDTO>> GetStoreListAsync()
     {
-      List<Store> storesList = await _DataContext.Set<Store>().Include(store => store.StoreCategories).ToListAsync();
+      var storesList = await _DataContext.Set<Store>().Join(
+        _DataContext.Set<StoreType>(),
+        store => store.StoreTypeId,
+        storeType => storeType.Id,
+        (store, storeType) => new
+        {
+          storeAvatar = store.Avatar,
+          storeName = store.Name,
+          storeTypeName = storeType.Name,
+          storeRate = decimal.Parse("5.0")
+        }
+      ).Select(query => new ListStoreResponseDTO(query.storeAvatar, query.storeName, query.storeTypeName, query.storeRate)).ToListAsync();
 
       return storesList;
     }

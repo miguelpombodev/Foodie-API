@@ -1,3 +1,4 @@
+using FoodieAPI.Domain.DTO.Responses;
 using FoodieAPI.Domain.Entities;
 using FoodieAPI.Domain.Interfaces.Repositories;
 using FoodieAPI.Domain.Interfaces.Services;
@@ -27,9 +28,9 @@ namespace FoodieAPI.Services.Implementations
       return storeTypesList;
     }
 
-    public async Task<List<Store>> GetStoreListAsync()
+    public async Task<List<ListStoreResponseDTO>> GetStoreListAsync()
     {
-      List<Store> storesList = await _repository.GetStoreListAsync();
+      List<ListStoreResponseDTO> storesList = await _repository.GetStoreListAsync();
 
       return storesList;
     }

@@ -14,7 +14,7 @@ public class ProductService : IProductsService
 
   public async Task<List<Dictionary<string, dynamic>>> GetUserCustomsProductsListAsync(
     string storeTypeName,
-    string categoryTitle
+    string? categoryTitle
   )
   {
     var products = await _repository.GetUserCustomsProductsListAsync(

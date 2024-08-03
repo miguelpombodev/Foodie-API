@@ -1,3 +1,4 @@
+using FoodieAPI.Domain.DTO.Responses;
 using FoodieAPI.Domain.Entities;
 
 namespace FoodieAPI.Domain.Interfaces.Services
@@ -6,7 +7,7 @@ namespace FoodieAPI.Domain.Interfaces.Services
   {
     Task<List<StoreCategory>> GetStoreCategoriesListAsync();
     Task<List<StoreType>> GetStoreCategoriesTypesListAsync();
-    Task<List<Store>> GetStoreListAsync();
+    Task<List<ListStoreResponseDTO>> GetStoreListAsync();
 
   }
 }
