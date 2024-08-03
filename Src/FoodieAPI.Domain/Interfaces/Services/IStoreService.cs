@@ -5,11 +5,11 @@ namespace FoodieAPI.Domain.Interfaces.Services;
 
 public interface IStoreService
 {
-    Task<List<StoreCategory>> GetStoreCategoriesListAsync();
-    Task<List<StoreType>> GetStoreCategoriesTypesListAsync();
+  Task<List<StoreCategory>> GetStoreCategoriesListAsync();
+  Task<List<StoreType>> GetStoreCategoriesTypesListAsync();
 
-    Task<List<ListStoreResponseDTO>> GetStoreListAsync(
-        string? sortByOptionName,
-        decimal? sortByDeliveryFee
-    );
+  Task<List<ListStoreResponseDTO>> GetStoreListAsync(
+      string? sortByOptionName,
+      decimal? sortByDeliveryFee
+  );
 }
