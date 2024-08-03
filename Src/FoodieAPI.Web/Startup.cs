@@ -47,6 +47,7 @@ namespace FoodieAPI.Web
       services.AddEndpointsApiExplorer();
       services.AddSwaggerGen(config =>
             {
+              config.EnableAnnotations();
               config.SwaggerDoc("v1", new OpenApiInfo { Title = "FoodieAPI", Version = "v1" });
             });
 
