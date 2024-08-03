@@ -1,5 +1,6 @@
 ﻿using FoodieAPI.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FoodieAPI.Web.Controllers
 {
@@ -15,7 +16,8 @@ namespace FoodieAPI.Web.Controllers
       _service = service;
     }
 
-    [HttpGet("v1/customs/{storeTypeName}")]
+    [HttpGet("v1/customs/{storeTypeName}", Name = "Get Briefed List of Stores")]
+    [SwaggerOperation(Summary = "Get List of Stores with briefed informations")]
     public async Task<IActionResult> GetUserCustomizedProductsListAsync(
       string storeTypeName,
       [FromQuery] string? categoryTitle
