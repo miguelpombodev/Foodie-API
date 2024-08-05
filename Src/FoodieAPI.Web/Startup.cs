@@ -37,8 +37,6 @@ namespace FoodieAPI.Web
 
       services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
 
-      services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
-
       services.AddControllers().AddNewtonsoftJson(options =>
       {
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -60,7 +58,7 @@ namespace FoodieAPI.Web
         app.UseSwagger();
         app.UseSwaggerUI();
       }
-
+      app.UseExceptionHandler();
 
       app.UseHttpsRedirection();
 
