@@ -1,3 +1,4 @@
+using FoodieAPI.Domain;
 using FoodieAPI.Domain.DTO.Requests;
 using FoodieAPI.Domain.Entities;
 using FoodieAPI.Domain.Interfaces.Repositories;
