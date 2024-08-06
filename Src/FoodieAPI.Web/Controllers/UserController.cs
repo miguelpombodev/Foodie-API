@@ -3,15 +3,15 @@ using FoodieAPI.Domain.DTO.Requests;
 using FoodieAPI.Domain.Interfaces.Services;
 using FoodieAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FoodieAPI.Web.Controllers
 {
   [Route("account")]
   [ApiController]
-  public class UserController(IUserService userService, IDataEncryptionService encryptionService, ITokenService tokenService) : ControllerBase
+  public class UserController(IUserService userService, IDataEncryptionService encryptionService) : ControllerBase
   {
     private readonly IDataEncryptionService _encryptionService = encryptionService;
-    private readonly ITokenService _tokenService = tokenService;
     private readonly IUserService _service = userService;
 
     [HttpPost("v1/create")]
@@ -38,15 +38,41 @@ namespace FoodieAPI.Web.Controllers
     {
       var user = await _service.GetOneUserAsync(userEmail);
 
-      var token = _tokenService.GenerateToken(user);
-      var refreshToken = _tokenService.GenerateRefreshToken();
-      _tokenService.SaveRefreshToken(user.Phone, refreshToken);
+      var token = TokenService.GenerateToken(user);
+      var refreshToken = TokenService.GenerateRefreshToken();
+      TokenService.SaveRefreshToken(user.Phone, refreshToken);
 
       return StatusCode(
         StatusCodes.Status200OK, new
         {
           token = token,
           refreshToken = refreshToken
+        }
+      );
+    }
+
+    [HttpPost("v1/refresh")]
+    public async Task<IActionResult> Refresh(
+      [FromBody] string token,
+      [FromBody] string refreshToken
+    )
+    {
+      var principal = TokenService.GetPrincipalFromExpiredToken(token);
+      var userPhone = principal.Identity.Name;
+      var savedRefreshToken = TokenService.GetRefreshToken(userPhone);
+      if (savedRefreshToken != refreshToken)
+        throw new SecurityTokenException("Invalid Refresh Token!");
+
+      var newJwtToken = TokenService.GenerateToken(principal.Claims);
+      var newRefreshToken = TokenService.GenerateRefreshToken();
+      TokenService.DeleteRefreshToken(userPhone, refreshToken);
+      TokenService.SaveRefreshToken(userPhone, newRefreshToken);
+
+      return StatusCode(
+        StatusCodes.Status200OK, new
+        {
+          token = newJwtToken,
+          refreshToken = newRefreshToken
         }
       );
     }

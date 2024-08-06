@@ -6,6 +6,7 @@ namespace FoodieAPI.Domain.Interfaces.Services;
 public interface ITokenService
 {
   string GenerateToken(User user);
+  string GenerateToken(IEnumerable<Claim> claims);
   string DecodeToken(string token);
   string GenerateRefreshToken();
   ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
