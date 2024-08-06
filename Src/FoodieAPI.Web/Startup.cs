@@ -28,7 +28,6 @@ namespace FoodieAPI.Web
       services.AddScoped<IStoreService, StoreService>();
       services.AddScoped<IProductsService, ProductService>();
       services.AddSingleton<IDataEncryptionService, DataEncryptionService>();
-      services.AddSingleton<ITokenService, TokenService>();
 
       services.AddCors(options =>
           {

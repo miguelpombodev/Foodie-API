@@ -10,9 +10,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace FoodieAPI.Services;
 
-public class TokenService : ITokenService
+public static class TokenService
 {
-  public string GenerateToken(User user)
+  public static string GenerateToken(User user)
   {
     var tokenHandler = new JwtSecurityTokenHandler();
     var key = Encoding.ASCII.GetBytes(AppConfiguration.JWTKey);
@@ -33,7 +33,25 @@ public class TokenService : ITokenService
     return tokenHandler.WriteToken(token);
   }
 
-  public string DecodeToken(string token)
+  public static string GenerateToken(IEnumerable<Claim> claims)
+  {
+    var tokenHandler = new JwtSecurityTokenHandler();
+    var key = Encoding.ASCII.GetBytes(AppConfiguration.JWTKey);
+    var tokenDescriptor = new SecurityTokenDescriptor
+    {
+      Subject = new ClaimsIdentity(claims),
+      Expires = DateTime.UtcNow.AddHours(8),
+      SigningCredentials = new SigningCredentials(
+            new SymmetricSecurityKey(key),
+            SecurityAlgorithms.HmacSha256Signature
+        )
+    };
+
+    var token = tokenHandler.CreateToken(tokenDescriptor);
+    return tokenHandler.WriteToken(token);
+  }
+
+  public static string DecodeToken(string token)
   {
     var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -46,7 +64,7 @@ public class TokenService : ITokenService
 
   }
 
-  public string GenerateRefreshToken()
+  public static string GenerateRefreshToken()
   {
     var randomNumber = new Guid().ToByteArray();
     using var rng = RandomNumberGenerator.Create();
@@ -54,7 +72,7 @@ public class TokenService : ITokenService
     return Convert.ToBase64String(randomNumber);
   }
 
-  public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+  public static ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
   {
     var tokenValidationParameters = new TokenValidationParameters
     {
@@ -75,17 +93,17 @@ public class TokenService : ITokenService
   }
 
   private static List<(string, string)> _refreshTokensList = new();
-  public void SaveRefreshToken(string userPhone, string refreshToken)
+  public static void SaveRefreshToken(string userPhone, string refreshToken)
   {
     _refreshTokensList.Add(new(userPhone, refreshToken));
   }
 
-  public string GetRefreshToken(string userPhone)
+  public static string GetRefreshToken(string userPhone)
   {
     return _refreshTokensList.FirstOrDefault(x => x.Item1 == userPhone).Item2;
   }
 
-  public void DeleteRefreshToken(string userPhone, string refreshToken)
+  public static void DeleteRefreshToken(string userPhone, string refreshToken)
   {
     var item = _refreshTokensList.FirstOrDefault(x => x.Item1 == userPhone && x.Item2 == refreshToken);
     _refreshTokensList.Remove(item);
