@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using FoodieAPI.Domain;
 using FoodieAPI.Domain.Interfaces.Repositories;
 using FoodieAPI.Domain.Interfaces.Services;
@@ -8,6 +9,8 @@ using FoodieAPI.Infra.Repositories;
 using FoodieAPI.Services;
 using FoodieAPI.Services.Implementations;
 using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FoodieAPI.Web
 {
@@ -25,6 +28,7 @@ namespace FoodieAPI.Web
       services.AddScoped<IStoreService, StoreService>();
       services.AddScoped<IProductsService, ProductService>();
       services.AddSingleton<IDataEncryptionService, DataEncryptionService>();
+      services.AddSingleton<ITokenService, TokenService>();
 
       services.AddCors(options =>
           {
@@ -50,6 +54,23 @@ namespace FoodieAPI.Web
               config.SwaggerDoc("v1", new OpenApiInfo { Title = "FoodieAPI", Version = "v1" });
             });
 
+      var key = Encoding.ASCII.GetBytes(AppConfiguration.JWTKey);
+      services.AddAuthentication(option =>
+      {
+        option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      }).AddJwtBearer(option =>
+      {
+        option.RequireHttpsMetadata = false;
+        option.SaveToken = true;
+        option.TokenValidationParameters = new TokenValidationParameters
+        {
+          ValidateIssuerSigningKey = true,
+          IssuerSigningKey = new SymmetricSecurityKey(key),
+          ValidateIssuer = false,
+          ValidateAudience = false
+        };
+      });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -75,7 +96,7 @@ namespace FoodieAPI.Web
       //                                   });
 
       app.UseCors("_myAllowSpecificOrigins");
-      // app.UseAuthentication();
+      app.UseAuthentication();
       app.UseAuthorization();
 
       AppConfiguration.MainDatabaseConnectionString = Configuration.GetConnectionString("MainDatabase");
