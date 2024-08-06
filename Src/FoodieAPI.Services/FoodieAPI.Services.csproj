@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FoodieAPI.Domain\FoodieAPI.Domain.csproj" />
+    <ProjectReference Include="..\FoodieAPI.Infra\FoodieAPI.Infra.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
