@@ -24,6 +24,7 @@ namespace FoodieAPI.Web
       services.AddScoped<IUserService, UserService>();
       services.AddScoped<IStoreService, StoreService>();
       services.AddScoped<IProductsService, ProductService>();
+      services.AddSingleton<IDataEncryptionService, DataEncryptionService>();
 
       services.AddCors(options =>
           {
@@ -34,8 +35,6 @@ namespace FoodieAPI.Web
               policy.AllowAnyMethod();
             });
           });
-
-      services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
 
       services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
 
@@ -60,7 +59,7 @@ namespace FoodieAPI.Web
         app.UseSwagger();
         app.UseSwaggerUI();
       }
-
+      app.UseExceptionHandler();
 
       app.UseHttpsRedirection();
 

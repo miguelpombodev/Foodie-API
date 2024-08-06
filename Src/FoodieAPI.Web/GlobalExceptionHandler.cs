@@ -10,32 +10,37 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
   private readonly ILogger<GlobalExceptionHandler> _logger = logger;
   public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
   {
-    var traceId = Activity.Current?.Id ?? httpContext.TraceIdentifier;
+    if (exception is not NotImplementedException)
+    {
 
-    _logger.LogError(
-      exception,
-      "Could not process a request on machine {MachineName}. TraceId: {traceId}",
-      Environment.MachineName,
-      traceId
-    );
+      var traceId = Activity.Current?.Id ?? httpContext.TraceIdentifier;
 
-    var (statusCode, title) = MapException(exception);
+      _logger.LogError(
+        exception,
+        "Could not process a request on machine {MachineName}. TraceId: {traceId}",
+        Environment.MachineName,
+        traceId
+      );
 
-    await Results.Problem(
-      title: title,
-      statusCode: statusCode,
-      extensions: new Dictionary<string, object?>{
+      var (statusCode, title) = MapException(exception);
+
+      httpContext.Response.StatusCode = statusCode;
+      await httpContext.Response.WriteAsJsonAsync(new Dictionary<string, object?>{
+        {"title", title},
         {"traceId", traceId}
-      }
-    ).ExecuteAsync(httpContext);
+      }, cancellationToken);
 
-    return true;
+      return true;
+    }
+
+    return false;
   }
 
   private static (int StatusCode, string Title) MapException(Exception exception)
   {
     return exception switch
     {
+      IndexOutOfRangeException => (StatusCodes.Status404NotFound, exception.Message),
       ArgumentOutOfRangeException => (StatusCodes.Status400BadRequest, exception.Message),
       _ => (StatusCodes.Status500InternalServerError, "Something went wrong but we are working on it!")
     };

@@ -13,9 +13,9 @@ namespace FoodieAPI.Infra.Mappings
 
       builder.Property(x => x.Id).HasColumnType("UniqueIdentifier");
       builder.Property(x => x.Name).HasColumnName("Name").HasColumnType("NVARCHAR").HasMaxLength(200).IsRequired();
-      builder.Property(x => x.Phone).HasColumnName("Phone").HasColumnType("VARCHAR").HasMaxLength(12).IsRequired();
+      builder.Property(x => x.Phone).HasColumnName("Phone").HasColumnType("VARCHAR").HasMaxLength(69).IsRequired();
       builder.Property(x => x.Email).HasColumnName("Email").HasColumnType("VARCHAR").HasMaxLength(100).IsRequired();
-      builder.Property(x => x.CPF).HasColumnName("CPF").HasColumnType("VARCHAR").HasMaxLength(11).IsRequired();
+      builder.Property(x => x.CPF).HasColumnName("CPF").HasColumnType("VARCHAR").HasMaxLength(69).IsRequired();
       builder.Property(x => x.Created_At).HasColumnName("Created_At").HasColumnType("DATETIME").HasDefaultValue(DateTime.Now.ToUniversalTime());
       builder.Property(x => x.Updated_At).HasColumnName("Updated_At").HasColumnType("DATETIME").HasDefaultValue(DateTime.Now.ToUniversalTime());
     }
