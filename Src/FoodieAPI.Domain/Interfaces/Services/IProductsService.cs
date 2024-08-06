@@ -1,6 +1,4 @@
-﻿using FoodieAPI.Domain.Entities;
-
-namespace FoodieAPI.Domain;
+﻿namespace FoodieAPI.Domain;
 
 public interface IProductsService
 {

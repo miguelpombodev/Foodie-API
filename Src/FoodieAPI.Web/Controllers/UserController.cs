@@ -8,9 +8,10 @@ namespace FoodieAPI.Web.Controllers
 {
   [Route("account")]
   [ApiController]
-  public class UserController(IUserService userService, IDataEncryptionService encryptionService) : ControllerBase
+  public class UserController(IUserService userService, IDataEncryptionService encryptionService, ITokenService tokenService) : ControllerBase
   {
     private readonly IDataEncryptionService _encryptionService = encryptionService;
+    private readonly ITokenService _tokenService = tokenService;
     private readonly IUserService _service = userService;
 
     [HttpPost("v1/create")]
@@ -27,6 +28,26 @@ namespace FoodieAPI.Web.Controllers
 
       return StatusCode(
         StatusCodes.Status200OK, new { result }
+      );
+    }
+
+    [HttpPost("v1/login")]
+    public async Task<IActionResult> Authenticate(
+      [FromBody] string userEmail
+    )
+    {
+      var user = await _service.GetOneUserAsync(userEmail);
+
+      var token = _tokenService.GenerateToken(user);
+      var refreshToken = _tokenService.GenerateRefreshToken();
+      _tokenService.SaveRefreshToken(user.Phone, refreshToken);
+
+      return StatusCode(
+        StatusCodes.Status200OK, new
+        {
+          token = token,
+          refreshToken = refreshToken
+        }
       );
     }
 
