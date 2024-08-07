@@ -1,10 +1,12 @@
 using FoodieAPI.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodieAPI.Web.Controllers
 {
   [Route("store")]
   [ApiController]
+  [Authorize]
   public class StoreController : ControllerBase
   {
     private readonly IStoreService _service;

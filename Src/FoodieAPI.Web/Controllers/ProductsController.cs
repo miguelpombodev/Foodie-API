@@ -1,4 +1,5 @@
 ﻿using FoodieAPI.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -6,6 +7,7 @@ namespace FoodieAPI.Web.Controllers
 {
   [Route("products")]
   [ApiController]
+  [Authorize]
   public class ProductsController : ControllerBase
   {
 

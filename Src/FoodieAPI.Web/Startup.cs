@@ -28,7 +28,6 @@ namespace FoodieAPI.Web
       services.AddScoped<IStoreService, StoreService>();
       services.AddScoped<IProductsService, ProductService>();
       services.AddSingleton<IDataEncryptionService, DataEncryptionService>();
-      services.AddSingleton<ITokenService, TokenService>();
 
       services.AddCors(options =>
           {
@@ -52,6 +51,36 @@ namespace FoodieAPI.Web
             {
               config.EnableAnnotations();
               config.SwaggerDoc("v1", new OpenApiInfo { Title = "FoodieAPI", Version = "v1" });
+              config.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+              {
+                Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                BearerFormat = "JWT",
+                Scheme = "Bearer"
+              });
+              config.AddSecurityDefinition("refresh_token", new OpenApiSecurityScheme
+              {
+                Description = "Add here the refresh token created when the login endpoint response",
+                Name = "refresh_token",
+                In = ParameterLocation.Header,
+              });
+
+              config.AddSecurityRequirement(new OpenApiSecurityRequirement
+              {
+                  {
+                      new OpenApiSecurityScheme
+                      {
+                          Reference = new OpenApiReference
+                          {
+                              Type=ReferenceType.SecurityScheme,
+                              Id="Bearer"
+                          }
+                      },
+                      new string[]{}
+                  }
+              });
             });
 
       var key = Encoding.ASCII.GetBytes(AppConfiguration.JWTKey);
@@ -85,15 +114,6 @@ namespace FoodieAPI.Web
       app.UseHttpsRedirection();
 
       app.UseRouting();
-
-      // app.Use(async (context, next) => {
-      //                                   await next();
-
-      //                                   if (context.Response.StatusCode == (int)HttpStatusCode.Unauthorized)
-      //                                   {
-      //                                   await context.Response.WriteAsync("Token Validation Has Failed. Request Access Denied");
-      //                                   }
-      //                                   });
 
       app.UseCors("_myAllowSpecificOrigins");
       app.UseAuthentication();
