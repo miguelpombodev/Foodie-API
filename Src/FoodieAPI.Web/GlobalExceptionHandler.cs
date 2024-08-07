@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FoodieAPI.Web;
 
@@ -42,6 +43,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
     {
       IndexOutOfRangeException => (StatusCodes.Status404NotFound, exception.Message),
       ArgumentOutOfRangeException => (StatusCodes.Status400BadRequest, exception.Message),
+      SecurityTokenException => (StatusCodes.Status401Unauthorized, exception.Message),
       _ => (StatusCodes.Status500InternalServerError, "Something went wrong but we are working on it!")
     };
   }

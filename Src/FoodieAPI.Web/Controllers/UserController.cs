@@ -2,6 +2,7 @@ using FoodieAPI.Domain;
 using FoodieAPI.Domain.DTO.Requests;
 using FoodieAPI.Domain.Interfaces.Services;
 using FoodieAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -52,12 +53,21 @@ namespace FoodieAPI.Web.Controllers
     }
 
     [HttpPost("v1/refresh")]
-    public async Task<IActionResult> Refresh(
-      [FromBody] string token,
-      [FromBody] string refreshToken
+    [Authorize]
+    public IActionResult Refresh(
+      [FromHeader] string authorization,
+      [FromHeader] string refreshToken
     )
     {
-      var principal = TokenService.GetPrincipalFromExpiredToken(token);
+      if (string.IsNullOrEmpty(authorization) && string.IsNullOrEmpty(refreshToken))
+      {
+        return StatusCode(
+          StatusCodes.Status400BadRequest,
+          new { detail = "JWT Token or Refresh Token is missing" }
+        );
+      };
+
+      var principal = TokenService.GetPrincipalFromExpiredToken(authorization);
       var userPhone = principal.Identity.Name;
       var savedRefreshToken = TokenService.GetRefreshToken(userPhone);
       if (savedRefreshToken != refreshToken)

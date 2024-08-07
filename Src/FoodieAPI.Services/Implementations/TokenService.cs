@@ -40,7 +40,7 @@ public static class TokenService
     var tokenDescriptor = new SecurityTokenDescriptor
     {
       Subject = new ClaimsIdentity(claims),
-      Expires = DateTime.UtcNow.AddHours(8),
+      Expires = DateTime.UtcNow.AddHours(3),
       SigningCredentials = new SigningCredentials(
             new SymmetricSecurityKey(key),
             SecurityAlgorithms.HmacSha256Signature
