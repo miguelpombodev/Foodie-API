@@ -16,7 +16,7 @@ namespace FoodieAPI.Web
 {
   public class Startup(IConfiguration configuration)
   {
-    public IConfiguration Configuration { get; } = configuration;
+    private IConfiguration Configuration { get; } = configuration;
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -96,8 +96,9 @@ namespace FoodieAPI.Web
         {
           ValidateIssuerSigningKey = true,
           IssuerSigningKey = new SymmetricSecurityKey(key),
-          ValidateIssuer = false,
-          ValidateAudience = false
+          ValidateIssuer = true,
+          ValidateAudience = true,
+          ValidateLifetime = true
         };
       });
     }

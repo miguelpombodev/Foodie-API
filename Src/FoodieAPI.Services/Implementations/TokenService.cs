@@ -1,10 +1,8 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using System.Net.NetworkInformation;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using FoodieAPI.Domain.Entities;
-using FoodieAPI.Domain.Interfaces.Services;
 using FoodieAPI.Infra.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
