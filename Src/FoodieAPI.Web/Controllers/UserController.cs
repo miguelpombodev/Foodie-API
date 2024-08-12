@@ -33,11 +33,11 @@ namespace FoodieAPI.Web.Controllers
     }
 
     [HttpPost("v1/login")]
-    public async Task<IActionResult> Authenticate(
-      [FromBody] AuthenticateUserDTO userEmail
+    public async Task<IActionResult> AuthenticateAsync(
+      [FromBody] AuthenticateUserDTO body
     )
     {
-      var user = await _service.GetOneUserAsync(userEmail.userEmail);
+      var user = await _service.GetOneUserAsync(body.Email);
 
       var token = TokenService.GenerateToken(user);
       var refreshToken = TokenService.GenerateRefreshToken();
