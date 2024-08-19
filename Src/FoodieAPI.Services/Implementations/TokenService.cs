@@ -13,7 +13,7 @@ public static class TokenService
   public static string GenerateToken(User user)
   {
     var tokenHandler = new JwtSecurityTokenHandler();
-    var key = Encoding.ASCII.GetBytes(AppConfiguration.JWTKey);
+    var key = Encoding.ASCII.GetBytes(AppConfiguration.JwtKey);
     var tokenDescriptor = new SecurityTokenDescriptor
     {
       Subject = new ClaimsIdentity(
@@ -34,7 +34,7 @@ public static class TokenService
   public static string GenerateToken(IEnumerable<Claim> claims)
   {
     var tokenHandler = new JwtSecurityTokenHandler();
-    var key = Encoding.ASCII.GetBytes(AppConfiguration.JWTKey);
+    var key = Encoding.ASCII.GetBytes(AppConfiguration.JwtKey);
     var tokenDescriptor = new SecurityTokenDescriptor
     {
       Subject = new ClaimsIdentity(claims),
@@ -77,7 +77,7 @@ public static class TokenService
       ValidateAudience = false,
       ValidateIssuer = false,
       ValidateIssuerSigningKey = true,
-      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppConfiguration.JWTKey)),
+      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppConfiguration.JwtKey)),
       ValidateLifetime = false,
     };
 

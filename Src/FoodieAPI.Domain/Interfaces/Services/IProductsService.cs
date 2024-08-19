@@ -1,8 +1,10 @@
-﻿namespace FoodieAPI.Domain;
+﻿using FoodieAPI.Domain.DTO.Response;
+
+namespace FoodieAPI.Domain.Interfaces.Services;
 
 public interface IProductsService
 {
-  Task<List<Dictionary<string, dynamic>>> GetUserCustomsProductsListAsync(
+  Task<List<CustomUserProductResponseDto>> GetUserCustomsProductsListAsync(
     string storeTypeName,
     string? categoryTitle
   );

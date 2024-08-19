@@ -7,15 +7,12 @@ namespace FoodieAPI.Infra.Context
 {
   public class DataContext : DbContext
   {
-
-    // public DbSet<User> Users { get; set; }
-    // public DbSet<Store> Stores { get; set; }
-    // public DbSet<StoreCategory> StoreCategories { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
       options.UseSqlServer(AppConfiguration.MainDatabaseConnectionString);
-      options.LogTo(Console.WriteLine);
+      
+      if(AppConfiguration.IsDevelopment)
+        options.LogTo(Console.WriteLine);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,23 +1,18 @@
 ﻿using FoodieAPI.Domain;
+using FoodieAPI.Domain.DTO.Response;
 using FoodieAPI.Domain.Interfaces.Repositories;
+using FoodieAPI.Domain.Interfaces.Services;
 
-namespace FoodieAPI.Services;
+namespace FoodieAPI.Services.Implementations;
 
-public class ProductService : IProductsService
+public class ProductService(IProductRepository productRepository) : IProductsService
 {
-  private readonly IProductRepository _repository;
-
-  public ProductService(IProductRepository productRepository)
-  {
-    _repository = productRepository;
-  }
-
-  public async Task<List<Dictionary<string, dynamic>>> GetUserCustomsProductsListAsync(
+  public async Task<List<CustomUserProductResponseDto>> GetUserCustomsProductsListAsync(
     string storeTypeName,
     string? categoryTitle
   )
   {
-    var products = await _repository.GetUserCustomsProductsListAsync(
+    var products = await productRepository.GetUserCustomsProductsListAsync(
       storeTypeName, categoryTitle
     );
 

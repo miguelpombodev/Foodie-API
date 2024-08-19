@@ -18,8 +18,20 @@ namespace FoodieAPI.Web
   {
     private IConfiguration Configuration { get; } = configuration;
 
+    private void ConfigureApplicationSettings()
+    {
+      AppConfiguration.JwtKey = Configuration.GetSection("JWTKey").Value;
+      AppConfiguration.MainDatabaseConnectionString = Configuration.GetConnectionString("MainDatabase");
+      
+      var mongoSettings = new AppConfiguration.MongoConfigurationSettings();
+      Configuration.GetSection("MongoSettings").Bind(mongoSettings);
+      AppConfiguration.MongoSettings = mongoSettings;
+    }
+
     public void ConfigureServices(IServiceCollection services)
     {
+      ConfigureApplicationSettings();
+      
       services.AddDbContext<DataContext>();
       services.AddScoped<IUserRepository, UsersRepository>();
       services.AddScoped<IStoreRepository, StoreRepository>();
@@ -28,6 +40,7 @@ namespace FoodieAPI.Web
       services.AddScoped<IStoreService, StoreService>();
       services.AddScoped<IProductsService, ProductService>();
       services.AddSingleton<IDataEncryptionService, DataEncryptionService>();
+      services.AddSingleton<MongoConfiguration>();
 
       services.AddCors(options =>
           {
@@ -83,7 +96,7 @@ namespace FoodieAPI.Web
               });
             });
 
-      var key = Encoding.ASCII.GetBytes(AppConfiguration.JWTKey);
+      var key = Encoding.ASCII.GetBytes(AppConfiguration.JwtKey);
       services.AddAuthentication(option =>
       {
         option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -96,8 +109,8 @@ namespace FoodieAPI.Web
         {
           ValidateIssuerSigningKey = true,
           IssuerSigningKey = new SymmetricSecurityKey(key),
-          ValidateIssuer = true,
-          ValidateAudience = true,
+          ValidateIssuer = false,
+          ValidateAudience = false,
           ValidateLifetime = true
         };
       });
@@ -107,6 +120,7 @@ namespace FoodieAPI.Web
     {
       if (env.IsDevelopment())
       {
+        AppConfiguration.IsDevelopment = true;
         app.UseSwagger();
         app.UseSwaggerUI();
       }
@@ -119,8 +133,6 @@ namespace FoodieAPI.Web
       app.UseCors("_myAllowSpecificOrigins");
       app.UseAuthentication();
       app.UseAuthorization();
-
-      AppConfiguration.MainDatabaseConnectionString = Configuration.GetConnectionString("MainDatabase");
 
       app.UseEndpoints(endpoints =>
         endpoints.MapControllers()

@@ -1,4 +1,4 @@
-﻿using FoodieAPI.Domain;
+﻿using FoodieAPI.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -8,16 +8,8 @@ namespace FoodieAPI.Web.Controllers
   [Route("products")]
   [ApiController]
   [Authorize]
-  public class ProductsController : ControllerBase
+  public class ProductsController(IProductsService service) : ControllerBase
   {
-
-    private readonly IProductsService _service;
-
-    public ProductsController(IProductsService service)
-    {
-      _service = service;
-    }
-
     [HttpGet("v1/customs/{storeTypeName}", Name = "Get Briefed List of Stores")]
     [SwaggerOperation(Summary = "Get List of Stores with briefed informations")]
     public async Task<IActionResult> GetUserCustomizedProductsListAsync(
@@ -25,7 +17,7 @@ namespace FoodieAPI.Web.Controllers
       [FromQuery] string? categoryTitle
     )
     {
-      var products = await _service.GetUserCustomsProductsListAsync(storeTypeName, categoryTitle);
+      var products = await service.GetUserCustomsProductsListAsync(storeTypeName, categoryTitle);
 
       return StatusCode(
         StatusCodes.Status200OK,
