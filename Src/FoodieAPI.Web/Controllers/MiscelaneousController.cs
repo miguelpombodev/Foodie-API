@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace FoodieAPI.Web.Controllers;
 
 [Route("documents")]
-public class MongoDocumentsController(IMiscelaneousService service)
+public class MiscelaneousController(IMiscelaneousService service)
     : ControllerBase
 {
     private readonly IMiscelaneousService _service = service;
