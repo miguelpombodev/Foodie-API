@@ -6,12 +6,16 @@ namespace FoodieAPI.Infra.Context;
 
 public class MongoConfiguration
 {
-    public readonly IMongoCollection<BannerMongoEntity> _bannerCollection;
+    private readonly IMongoDatabase _database;
     
     public MongoConfiguration()
     {
         var mongoClient = new MongoClient($"mongodb://{AppConfiguration.MongoSettings.MongoUser}:{AppConfiguration.MongoSettings.MongoPassword}@{AppConfiguration.MongoSettings.MongoHost}:{AppConfiguration.MongoSettings.MongoPort}");
-        var database = mongoClient.GetDatabase(AppConfiguration.MongoSettings.DatabaseName);
-        _bannerCollection = database.GetCollection<BannerMongoEntity>(AppConfiguration.MongoSettings.CollectionName);
+        _database = mongoClient.GetDatabase(AppConfiguration.MongoSettings.DatabaseName);
+    }
+
+    public IMongoCollection<T> GetCollection<T>(string collectionName)
+    {
+        return _database.GetCollection<T>(collectionName);
     }
 }

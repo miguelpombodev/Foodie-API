@@ -36,9 +36,11 @@ namespace FoodieAPI.Web
       services.AddScoped<IUserRepository, UsersRepository>();
       services.AddScoped<IStoreRepository, StoreRepository>();
       services.AddScoped<IProductRepository, ProductsRepository>();
+      services.AddScoped<IMiscelaneousRepository, MiscelaneousRepository>();
       services.AddScoped<IUserService, UserService>();
       services.AddScoped<IStoreService, StoreService>();
       services.AddScoped<IProductsService, ProductService>();
+      services.AddScoped<IMiscelaneousService, MiscelaneousService>();
       services.AddSingleton<IDataEncryptionService, DataEncryptionService>();
       services.AddSingleton<MongoConfiguration>();
 
