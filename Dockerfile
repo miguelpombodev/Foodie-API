@@ -4,12 +4,12 @@ WORKDIR /foodie
 # Build da aplicacao
 COPY . ./
 
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release -o app
 
 EXPOSE 8080
 
 # Build da imagem
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /foodie
-COPY --from=build-env /foodie/out .
+COPY --from=build-env /foodie/app .
 ENTRYPOINT ["dotnet", "FoodieAPI.Web.dll"]

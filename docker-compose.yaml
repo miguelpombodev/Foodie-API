@@ -24,6 +24,17 @@ services:
       - MSSQL_SA_PASSWORD=123456QWERT@#
     networks:
       - foodie_net
+  
+  foodie_mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    restart: "always"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=foodie
+      - MONGO_INITDB_ROOT_PASSWORD=foodieMongo123!
+    networks:
+      - foodie_net
 networks:
   foodie_net:
     driver: bridge
