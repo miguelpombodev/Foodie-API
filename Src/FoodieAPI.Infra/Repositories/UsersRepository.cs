@@ -10,7 +10,7 @@ namespace FoodieAPI.Infra.Repositories
   {
     private readonly DataContext _dataContext = dataContext;
 
-    async public Task<User?> GetByEmailAsync(string email)
+    public async Task<User?> GetByEmailAsync(string email)
     {
       var userByEmail = await _dataContext.Set<User>().FirstOrDefaultAsync(x => x.Email == email);
 

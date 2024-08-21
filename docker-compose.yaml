@@ -20,8 +20,6 @@ services:
     ports:
       - "1433:1433"
     restart: always
-    volumes:
-      - "/Data/mssql:/var/opt/mssql/data"
     environment:
       - MSSQL_SA_PASSWORD=123456QWERT@#
     networks:
