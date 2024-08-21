@@ -10,7 +10,7 @@ namespace FoodieAPI.Services.Implementations
   {
     private readonly IUserRepository _repository = userRepository;
 
-    async public Task<string> CreateOneUserAsync(CreateUserDTO body)
+    public async Task<string> CreateOneUserAsync(CreateUserDTO body)
     {
       var user = await _repository.GetByEmailAsync(body.Email);
 
@@ -19,7 +19,7 @@ namespace FoodieAPI.Services.Implementations
         throw new IndexOutOfRangeException("Something went wrong with user's email/phone, please be sure");
       }
 
-      User formattingUserToDB = new(
+      User formattingUserToDb = new(
         body.Name,
         body.Phone,
         body.Email,
@@ -28,7 +28,7 @@ namespace FoodieAPI.Services.Implementations
         DateTime.Now.ToUniversalTime()
       );
 
-      await _repository.SaveAsync(formattingUserToDB);
+      await _repository.SaveAsync(formattingUserToDb);
 
       return "success";
     }
@@ -40,16 +40,16 @@ namespace FoodieAPI.Services.Implementations
 
     public async Task<User> GetOneUserAsync(string userEmail)
     {
-      User? user = await _repository.GetByEmailAsync(userEmail) ?? throw new IndexOutOfRangeException("Something went wrong with user's email/phone, please be sure");
+      var user = await _repository.GetByEmailAsync(userEmail) ?? throw new IndexOutOfRangeException("Something went wrong with user's email/phone, please be sure");
 
       return user;
     }
 
     public async Task<List<User>> GetUsersListAsync()
     {
-      var UsersList = await _repository.GetUserListAsync();
+      var usersList = await _repository.GetUserListAsync();
 
-      return UsersList;
+      return usersList;
     }
 
     public Task<string> UpdateOneUserAsync()
