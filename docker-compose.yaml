@@ -13,17 +13,32 @@ services:
       - foodie_net
     depends_on:
       - foodie_db
+      - foodie_mongo
 
   foodie_db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: wallghost/sql-server-dbs:latest
     ports:
       - "1433:1433"
     restart: always
+    volumes:
+      - "/Data/mssql:/var/opt/mssql/data"
     environment:
-      - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=123456QWERT@#
     networks:
       - foodie_net
+
+  foodie_mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    restart: "always"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=foodie
+      - MONGO_INITDB_ROOT_PASSWORD=foodieMongo123!
+    networks:
+      - foodie_net
+    depends_on:
+      - foodie_db
 networks:
   foodie_net:
     driver: bridge

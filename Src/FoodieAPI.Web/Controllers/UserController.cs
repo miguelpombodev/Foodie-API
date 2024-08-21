@@ -21,7 +21,6 @@ namespace FoodieAPI.Web.Controllers
     )
     {
       body.CPF = _encryptionService.Hash(body.CPF);
-      body.Phone = _encryptionService.Hash(body.Phone);
 
       var result = await _service.CreateOneUserAsync(
         body
