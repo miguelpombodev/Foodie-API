@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 namespace FoodieAPI.Web;
 
@@ -16,7 +17,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
 
       var traceId = Activity.Current?.Id ?? httpContext.TraceIdentifier;
 
-      _logger.LogError(
+      Log.Error(
         exception,
         "Could not process a request on machine {MachineName}. TraceId: {traceId}",
         Environment.MachineName,
