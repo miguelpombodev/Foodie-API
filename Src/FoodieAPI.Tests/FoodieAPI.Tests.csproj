@@ -28,4 +28,16 @@
       <ProjectReference Include="..\FoodieAPI.Web\FoodieAPI.Web.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="coverage\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="coverage\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="coverage\**" />
+    </ItemGroup>
+
 </Project>
