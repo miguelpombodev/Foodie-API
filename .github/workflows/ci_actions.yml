@@ -1,8 +1,11 @@
 name: foodie-api-backend
-on: 
-  push:
-    branches:
-      - develop
+on:
+  workflow_run: 
+    workflows: ["foodie-api-test"]
+    branches: [ develop, stage, main]
+    types:
+      - completed
+    
 jobs:
   check-application:
     runs-on: ubuntu-latest

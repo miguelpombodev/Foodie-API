@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodieAPI.Services", "Src\F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodieAPI.Web", "Src\FoodieAPI.Web\FoodieAPI.Web.csproj", "{B2CC8AAC-65CD-410C-8A38-6CD2636CE693}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodieAPI.Tests", "Src\FoodieAPI.Tests\FoodieAPI.Tests.csproj", "{BED7024D-49A4-4820-A9ED-5A243DAE6427}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{B2CC8AAC-65CD-410C-8A38-6CD2636CE693}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2CC8AAC-65CD-410C-8A38-6CD2636CE693}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2CC8AAC-65CD-410C-8A38-6CD2636CE693}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BED7024D-49A4-4820-A9ED-5A243DAE6427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BED7024D-49A4-4820-A9ED-5A243DAE6427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BED7024D-49A4-4820-A9ED-5A243DAE6427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BED7024D-49A4-4820-A9ED-5A243DAE6427}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{02336505-B1B2-4CDE-AC5A-0AB21600AE3D} = {4192C9BE-B25D-4281-B03C-07A9D7185153}
