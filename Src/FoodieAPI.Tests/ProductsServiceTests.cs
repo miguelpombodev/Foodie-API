@@ -20,7 +20,7 @@ public class ProductsServiceTests
             new ("image.png", "Produto Teste 1", decimal.Parse("21.00"), "loja_imagem.png", "loja_test")
         };
         
-        _mockProductRepository.Setup(x => x.GetUserCustomsProductsListAsync("typeName", null)).ReturnsAsync(repositoryReturn).Verifiable();
+        _mockProductRepository.Setup(x => x.GetUserCustomsProductsListAsync("typeName", null)).ReturnsAsync(repositoryReturn);
         var mockProductsService = new ProductService(_mockProductRepository.Object);
         
         //Act
