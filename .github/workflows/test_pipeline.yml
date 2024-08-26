@@ -1,0 +1,31 @@
+name: foodie-api-test
+on:
+  push:
+    branches:
+      - develop
+      - stage
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to Main branch
+        uses: actions/checkout@v4
+      
+      - name: Setting Up .NET CORE 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+          
+      - name: Clean project
+        run: dotnet clean
+        
+      - name: Restore dependencies
+        run: dotnet restore
+        
+      - name: Installing Project Dependencies
+        run: dotnet build 
+        
+      - name: Running Project xUnit Tests
+        run: dotnet test Src/FoodieAPI.Tests/FoodieAPI.Tests.csproj --logger "console;verbosity=detailed"
