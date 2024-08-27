@@ -30,7 +30,7 @@ public class StoreRepository : IStoreRepository
     return storeTypesList;
   }
 
-  public async Task<List<ListStoreResponseDTO>> GetStoreListAsync(
+  public async Task<List<ListStoreResponseDto>> GetStoreListAsync(
       string? sortByOptionName,
       decimal? sortByDeliveryFee
   )
@@ -69,7 +69,7 @@ public class StoreRepository : IStoreRepository
 
 
     var storesList = await joinStoresList.Select(query =>
-            new ListStoreResponseDTO(query.storeAvatar, query.storeName, query.storeTypeName, query.storeRate, query.storeMinDeliveryTime, query.storeMaxDeliveryTime, query.storeDeliveryFee))
+            new ListStoreResponseDto(query.storeAvatar, query.storeName, query.storeTypeName, query.storeRate, query.storeMinDeliveryTime, query.storeMaxDeliveryTime, query.storeDeliveryFee))
         .ToListAsync();
 
     return storesList;
