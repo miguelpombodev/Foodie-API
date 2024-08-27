@@ -13,5 +13,7 @@ namespace FoodieAPI.Domain.Interfaces.Repositories
 
     Task<User> SaveAsync(User user);
     Task<User> UpdateAsync(User customer);
+    
+    Task<IList<UserAddresses>?> GetUserAddressesAsync(Guid id);
   }
 }

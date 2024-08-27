@@ -60,6 +60,16 @@ namespace FoodieAPI.Services.Implementations
       return user;
     }
 
+    public Task<IList<UserAddresses>?> GetUserAddressesAsync(Guid id)
+    {
+      var userAddresses = _repository.GetUserAddressesAsync(id);
+      
+      if (userAddresses == null)
+        throw new IndexOutOfRangeException("There's no user's addresses");
+
+      return userAddresses;
+    }
+
     public async Task<List<User>> GetUsersListAsync()
     {
       var usersList = await _repository.GetUserListAsync();

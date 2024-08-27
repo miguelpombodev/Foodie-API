@@ -50,5 +50,13 @@ namespace FoodieAPI.Infra.Repositories
     {
       throw new NotImplementedException();
     }
+
+    public async Task<IList<UserAddresses>?> GetUserAddressesAsync(Guid id)
+    {
+      var userAddresses = await _dataContext.Set<User>().Include(user => user.UserAddresses)
+        .Where(user => user.Id == id).FirstOrDefaultAsync();
+
+      return userAddresses?.UserAddresses;
+    }
   }
 }

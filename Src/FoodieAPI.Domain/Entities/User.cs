@@ -9,5 +9,7 @@ namespace FoodieAPI.Domain.Entities
     public string Avatar { get; set; } = avatar;
     public DateTime CreatedAt { get; private set; } = createdAt;
     public DateTime UpdatedAt { get; private set; } = updatedAt;
+
+    public IList<UserAddresses>? UserAddresses { get; set; } = new List<UserAddresses>();
   }
 }
