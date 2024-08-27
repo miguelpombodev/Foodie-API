@@ -115,7 +115,7 @@ namespace FoodieAPI.Web.Controllers
       );
     }
     
-    [HttpGet("v1/info/addresses")]
+    [HttpGet("v1/info/get/addresses")]
     [Authorize]
     public async Task<IActionResult> GetUserAddressesAsync(
       [FromHeader] string authorization
@@ -141,6 +141,35 @@ namespace FoodieAPI.Web.Controllers
         new
         {
           userAddresses,
+        }
+      );
+    }
+
+    [HttpPost("v1/info/create/address")]
+    [Authorize]
+    public async Task<IActionResult> CreateOneUserAddressAsync(
+      [FromHeader] string authorization,
+      [FromBody] CreateUserAddressDto body
+      )
+    {
+      if (string.IsNullOrEmpty(authorization))
+      {
+        return StatusCode(
+          StatusCodes.Status400BadRequest,
+          new { detail = "JWT Token or Refresh Token is missing" }
+        );
+      };
+
+      var userPhone = TokenService.DecodeToken(authorization);
+      
+      var user = await _service.GetOneUserAsync(userPhone);
+      var userAddress = _service.CreateUserAddressAsync(body, user.Id);
+
+      return StatusCode(
+        StatusCodes.Status200OK,
+        new
+        {
+          result = "User address saved successfully!",
         }
       );
     }

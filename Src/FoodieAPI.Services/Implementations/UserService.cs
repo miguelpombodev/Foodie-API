@@ -70,6 +70,23 @@ namespace FoodieAPI.Services.Implementations
       return userAddresses;
     }
 
+    public async Task<Guid> CreateUserAddressAsync(CreateUserAddressDto body, Guid userId)
+    {
+      var userAddressParsed = new UserAddresses(
+        userId,
+        body.UserAddress,
+        body.UserAddressNumber,
+        body.UserAddressComplement,
+        body.IsDefault,
+        DateTime.Now.ToUniversalTime(),
+        DateTime.Now.ToUniversalTime()
+      );
+      
+      var userAddressId = await _repository.SaveUserAddressAsync(userAddressParsed);
+      
+      return userAddressId;
+    }
+
     public async Task<List<User>> GetUsersListAsync()
     {
       var usersList = await _repository.GetUserListAsync();
