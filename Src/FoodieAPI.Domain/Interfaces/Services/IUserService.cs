@@ -12,5 +12,6 @@ namespace FoodieAPI.Domain.Interfaces.Services
     Task<string> UpdateOneUserAsync();
     Task<string> DeleteOneUserAsync();
     Task<User> GetOneUserAsync(AuthenticateUserDTO body);
+    Task<User> GetOneUserAsync(string userPhone);
   }
 }
