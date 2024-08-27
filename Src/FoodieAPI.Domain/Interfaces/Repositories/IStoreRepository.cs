@@ -1,12 +1,15 @@
 using FoodieAPI.Domain.DTO.Responses;
 using FoodieAPI.Domain.Entities;
 
-namespace FoodieAPI.Domain.Interfaces.Repositories
+namespace FoodieAPI.Domain.Interfaces.Repositories;
+
+public interface IStoreRepository
 {
-  public interface IStoreRepository
-  {
     Task<List<StoreCategory>> GetStoreCategoriesListAsync();
     Task<List<StoreType>> GetStoreTypesListAsync();
-    Task<List<ListStoreResponseDTO>> GetStoreListAsync();
-  }
+
+    Task<List<ListStoreResponseDTO>> GetStoreListAsync(
+        string? sortByOptionName,
+        decimal? sortByDeliveryFee
+    );
 }

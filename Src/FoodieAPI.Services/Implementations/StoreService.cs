@@ -7,7 +7,7 @@ namespace FoodieAPI.Services.Implementations
 {
   public class StoreService : IStoreService
   {
-    protected readonly IStoreRepository _repository;
+    private readonly IStoreRepository _repository;
 
     public StoreService(IStoreRepository storeRepository)
     {
@@ -16,21 +16,27 @@ namespace FoodieAPI.Services.Implementations
 
     public async Task<List<StoreCategory>> GetStoreCategoriesListAsync()
     {
-      List<StoreCategory> categoriesList = await _repository.GetStoreCategoriesListAsync();
+      var categoriesList = await _repository.GetStoreCategoriesListAsync();
 
       return categoriesList;
     }
 
     public async Task<List<StoreType>> GetStoreCategoriesTypesListAsync()
     {
-      List<StoreType> storeTypesList = await _repository.GetStoreTypesListAsync();
+      var storeTypesList = await _repository.GetStoreTypesListAsync();
 
       return storeTypesList;
     }
 
-    public async Task<List<ListStoreResponseDTO>> GetStoreListAsync()
+    public async Task<List<ListStoreResponseDTO>> GetStoreListAsync(
+      string? sortByOptionName,
+      decimal? sortByDeliveryFee
+      )
     {
-      List<ListStoreResponseDTO> storesList = await _repository.GetStoreListAsync();
+      var storesList = await _repository.GetStoreListAsync(
+        sortByOptionName,
+        sortByDeliveryFee
+        );
 
       return storesList;
     }
