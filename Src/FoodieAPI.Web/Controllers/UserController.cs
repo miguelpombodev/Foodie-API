@@ -114,6 +114,36 @@ namespace FoodieAPI.Web.Controllers
         }
       );
     }
+    
+    [HttpGet("v1/info/addresses")]
+    [Authorize]
+    public async Task<IActionResult> GetUserAddressesAsync(
+      [FromHeader] string authorization
+    )
+    {
+      
+      if (string.IsNullOrEmpty(authorization))
+      {
+        return StatusCode(
+          StatusCodes.Status400BadRequest,
+          new { detail = "JWT Token or Refresh Token is missing" }
+        );
+      };
+
+      var userPhone = TokenService.DecodeToken(authorization);
+      
+      var user = await _service.GetOneUserAsync(userPhone);
+
+      var userAddresses = await _service.GetUserAddressesAsync(user.Id);
+      
+      return StatusCode(
+        StatusCodes.Status200OK,
+        new
+        {
+          userAddresses,
+        }
+      );
+    }
 
     [HttpGet("v1/list")]
     public async Task<IActionResult> GetUsersListAsync()

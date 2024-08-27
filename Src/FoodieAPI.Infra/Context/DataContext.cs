@@ -18,6 +18,7 @@ namespace FoodieAPI.Infra.Context
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.ApplyConfiguration(new UserMap());
+      modelBuilder.ApplyConfiguration(new UserAddressesMap());
       modelBuilder.ApplyConfiguration(new StoreCategoryMap());
       modelBuilder.ApplyConfiguration(new StoreTypeMap());
       modelBuilder.ApplyConfiguration(new StoreMap());
