@@ -14,5 +14,6 @@ namespace FoodieAPI.Domain.Interfaces.Services
     Task<User> GetOneUserAsync(AuthenticateUserDTO body);
     Task<User> GetOneUserAsync(string userPhone);
     Task<IList<UserAddresses>?> GetUserAddressesAsync(Guid id);
+    Task<Guid> CreateUserAddressAsync(CreateUserAddressDto body, Guid userId);
   }
 }

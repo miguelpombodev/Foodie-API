@@ -69,5 +69,13 @@ namespace FoodieAPI.Infra.Repositories
 
       return queryUserAddresses;
     }
+
+    public async Task<Guid> SaveUserAddressAsync(UserAddresses userAddress)
+    {
+      await _dataContext.Set<UserAddresses>().AddAsync(userAddress);
+      await _dataContext.SaveChangesAsync();
+      
+      return userAddress.Id;
+    }
   }
 }
