@@ -50,6 +50,16 @@ namespace FoodieAPI.Services.Implementations
       return user;
     }
 
+    public async Task<User> GetOneUserAsync(string userPhone)
+    {
+      var user = await _repository.GetByPhoneAsync(userPhone);
+
+      if (user == null)
+        throw new IndexOutOfRangeException("Something went wrong with user's email/phone, please be sure");
+
+      return user;
+    }
+
     public async Task<List<User>> GetUsersListAsync()
     {
       var usersList = await _repository.GetUserListAsync();
