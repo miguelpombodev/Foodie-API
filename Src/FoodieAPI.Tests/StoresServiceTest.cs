@@ -13,7 +13,7 @@ public class StoresServiceTest
     public async void ShouldReturnListOfStoresWithoutAnyFilter()
     {
         //Arrange
-        var repositoryReturn = new List<ListStoreResponseDTO>()
+        var repositoryReturn = new List<ListStoreResponseDto>()
         {
             new (
                     storeTypeName: "Store Type Teste",

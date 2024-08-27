@@ -8,7 +8,7 @@ public interface IStoreRepository
   Task<List<StoreCategory>> GetStoreCategoriesListAsync();
   Task<List<StoreType>> GetStoreTypesListAsync();
 
-  Task<List<ListStoreResponseDTO>> GetStoreListAsync(
+  Task<List<ListStoreResponseDto>> GetStoreListAsync(
       string? sortByOptionName,
       decimal? sortByDeliveryFee
   );

@@ -2,15 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FoodieAPI.Domain.DTO.Requests
 {
-  public class CreateUserDto(string name, string phone, string avatar, string email, string cPF)
+  public class CreateUserDto(string name, string phone, string? avatar, string email, string cPF)
   {
     [Required]
     [StringLength(200, MinimumLength = 3)]
     public string Name { get; set; } = name;
     
-    [Required]
     [StringLength(150)]
-    public string Avatar { get; set; } = avatar;
+    public string? Avatar { get; set; } = avatar ?? null;
 
     [Required]
     [StringLength(12)]

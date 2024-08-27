@@ -23,17 +23,17 @@ public class StoreMap : IEntityTypeConfiguration<Store>
         builder.Property(x => x.Address).HasColumnName("Address").HasColumnType("NVARCHAR").HasMaxLength(1000)
             .IsRequired();
         builder.Property(x => x.CNPJ).HasColumnName("CNPJ").HasColumnType("VARCHAR").HasMaxLength(16).IsRequired();
-        builder.Property(x => x.CreatedAt).HasColumnName("Created_At").HasColumnType("DATETIME")
-            .HasDefaultValue(DateTime.Now.ToUniversalTime());
-        builder.Property(x => x.UpdatedAt).HasColumnName("Updated_At").HasColumnType("DATETIME")
-            .HasDefaultValue(DateTime.Now.ToUniversalTime());
         builder.Property(x => x.CEP).HasColumnName("CEP").HasColumnType("VARCHAR").HasMaxLength(8).IsRequired();
-        builder.Property(x => x.StoreRate).HasColumnName("Store_Rate").HasColumnType("DECIMAL").IsRequired();
         builder.Property(x => x.StoreMinDeliveryTime).HasColumnName("Store_Min_Delivery_Time").HasColumnType("VARCHAR")
             .HasMaxLength(3).IsRequired();
         builder.Property(x => x.StoreMaxDeliveryTime).HasColumnName("Store_Max_Delivery_Time").HasColumnType("VARCHAR")
             .HasMaxLength(3).IsRequired();
         builder.Property(x => x.StoreDeliveryFee).HasColumnName("Store_Delivery_Fee").HasColumnType("DECIMAL")
             .IsRequired();
+        builder.Property(x => x.StoreRate).HasColumnName("Store_Rate").HasColumnType("DECIMAL").IsRequired();
+        builder.Property(x => x.CreatedAt).HasColumnName("Created_At").HasColumnType("DATETIME")
+            .HasDefaultValue(DateTime.Now.ToUniversalTime());
+        builder.Property(x => x.UpdatedAt).HasColumnName("Updated_At").HasColumnType("DATETIME")
+            .HasDefaultValue(DateTime.Now.ToUniversalTime());
     }
 }
