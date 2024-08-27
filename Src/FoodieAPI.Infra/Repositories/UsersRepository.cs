@@ -53,10 +53,21 @@ namespace FoodieAPI.Infra.Repositories
 
     public async Task<IList<UserAddresses>?> GetUserAddressesAsync(Guid id)
     {
-      var userAddresses = await _dataContext.Set<User>().Include(user => user.UserAddresses)
-        .Where(user => user.Id == id).FirstOrDefaultAsync();
+      var joinUserAddresses = _dataContext.Set<User>().Join(
+        dataContext.Set<UserAddresses>(),
+        user => user.Id,
+        userAddresses => userAddresses.UserId,
+        (user, userAddresses) => new
+        {
+          userAddresses
+        }
+      ).Where(
+        c => c.userAddresses.UserId == id
+        );
 
-      return userAddresses?.UserAddresses;
+      var queryUserAddresses = await joinUserAddresses.Select(c => c.userAddresses).ToListAsync();
+
+      return queryUserAddresses;
     }
   }
 }

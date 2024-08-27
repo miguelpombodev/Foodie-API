@@ -17,6 +17,4 @@ public class UserAddresses(
     public bool IsDefault { get; set; } = isDefault;
     public DateTime CreatedAt { get; set; } = createdAt;
     public DateTime UpdatedAt { get; set; } = updatedAt;
-    
-    public User? User { get; set; }
 }
