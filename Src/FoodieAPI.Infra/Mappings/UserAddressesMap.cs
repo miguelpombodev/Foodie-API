@@ -19,8 +19,5 @@ public class UserAddressesMap : IEntityTypeConfiguration<UserAddresses>
         builder.Property(x => x.IsDefault).HasColumnName("Is_Default").HasColumnType("BIT").IsRequired();
         builder.Property(x => x.CreatedAt).HasColumnName("Created_At").HasColumnType("DATETIME").HasDefaultValue(DateTime.Now.ToUniversalTime());
         builder.Property(x => x.UpdatedAt).HasColumnName("Updated_At").HasColumnType("DATETIME").HasDefaultValue(DateTime.Now.ToUniversalTime());
-        
-        builder.HasOne(userAddresses => userAddresses.User).WithMany(user => user.UserAddresses).HasConstraintName("FK_USER_USER_ADDRESS").HasForeignKey(f => f.UserId);
-
     }
 }
