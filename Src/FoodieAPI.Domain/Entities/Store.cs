@@ -1,37 +1,41 @@
-namespace FoodieAPI.Domain.Entities
-{
-  public class Store : BaseEntity
-  {
-    public Store(string name, string avatar, int storeTypeId, string description, decimal orderMinValue, TimeOnly openAt, TimeOnly closedAt, string address, string cNPJ, string cEP, DateTime createdAt, DateTime updatedAt)
-    {
-      Name = name;
-      Avatar = avatar;
-      StoreTypeId = storeTypeId;
-      Description = description;
-      OrderMinValue = orderMinValue;
-      OpenAt = openAt;
-      ClosedAt = closedAt;
-      Address = address;
-      CNPJ = cNPJ;
-      CEP = cEP;
-      CreatedAt = createdAt;
-      UpdatedAt = updatedAt;
-    }
+namespace FoodieAPI.Domain.Entities;
 
-    public string Name { get; set; }
-    public string Avatar { get; set; }
-    public int StoreTypeId { get; set; }
-    public string Description { get; set; }
-    public decimal OrderMinValue { get; set; }
-    public TimeOnly OpenAt { get; set; }
-    public TimeOnly ClosedAt { get; set; }
-    public string Address { get; set; }
-    public string CNPJ { get; set; }
-    public string CEP { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+public class Store(
+    string name,
+    string avatar,
+    int storeTypeId,
+    string description,
+    decimal orderMinValue,
+    TimeOnly openAt,
+    TimeOnly closedAt,
+    string address,
+    string cNpj,
+    string cEp,
+    decimal storeRate,
+    string storeMinDeliveryTime,
+    string storeMaxDeliveryTime,
+    decimal storeDeliveryFee,
+    DateTime createdAt,
+    DateTime updatedAt)
+    : BaseEntity
+{
+    public string Name { get; set; } = name;
+    public string Avatar { get; set; } = avatar;
+    public int StoreTypeId { get; set; } = storeTypeId;
+    public string Description { get; set; } = description;
+    public decimal OrderMinValue { get; set; } = orderMinValue;
+    public TimeOnly OpenAt { get; set; } = openAt;
+    public TimeOnly ClosedAt { get; set; } = closedAt;
+    public string Address { get; set; } = address;
+    public string CNPJ { get; set; } = cNpj;
+    public string CEP { get; set; } = cEp;
+    public decimal StoreRate { get; set; } = storeRate;
+    public string StoreMinDeliveryTime { get; set; } = storeMinDeliveryTime;
+    public string StoreMaxDeliveryTime { get; set; } = storeMaxDeliveryTime;
+    public decimal StoreDeliveryFee { get; set; } = storeDeliveryFee;
+    public DateTime CreatedAt { get; set; } = createdAt;
+    public DateTime UpdatedAt { get; set; } = updatedAt;
     public StoreType StoreType { get; set; }
     public IList<StoreCategory> StoreCategories { get; set; }
     public IList<Product> Products { get; set; }
-  }
 }

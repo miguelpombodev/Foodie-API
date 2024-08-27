@@ -1,18 +1,13 @@
 namespace FoodieAPI.Domain.DTO.Responses
 {
-  public class ListStoreResponseDTO
+  public class ListStoreResponseDTO(string storeAvatar, string storeName, string storeTypeName, decimal storeRate, string storeMinDeliveryTime, string storeMaxDeliveryTime, decimal storeDeliveryFee)
   {
-    public ListStoreResponseDTO(string storeAvatar, string storeName, string storeTypeName, decimal storeRate)
-    {
-      this.StoreAvatar = storeAvatar;
-      this.StoreName = storeName;
-      this.StoreTypeName = storeTypeName;
-      this.StoreRate = storeRate;
-    }
-
-    public string StoreAvatar;
-    public string StoreName;
-    public string StoreTypeName;
-    public decimal StoreRate;
+    public string StoreAvatar = storeAvatar;
+    public string StoreName = storeName;
+    public string StoreTypeName = storeTypeName;
+    public decimal StoreRate = storeRate;
+    public string StoreMinDeliveryTime { get; set; } = storeMinDeliveryTime;
+    public string StoreMaxDeliveryTime { get; set; } = storeMaxDeliveryTime;
+    public decimal StoreDeliveryFee { get; set; } = storeDeliveryFee;
   }
 }
