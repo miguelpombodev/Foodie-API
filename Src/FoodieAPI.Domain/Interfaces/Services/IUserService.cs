@@ -7,7 +7,7 @@ namespace FoodieAPI.Domain.Interfaces.Services
   {
     Task<List<User>> GetUsersListAsync();
     Task<string> CreateOneUserAsync(
-      CreateUserDTO body
+      CreateUserDto body
     );
     Task<string> UpdateOneUserAsync();
     Task<string> DeleteOneUserAsync();

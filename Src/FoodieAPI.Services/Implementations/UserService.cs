@@ -10,7 +10,7 @@ namespace FoodieAPI.Services.Implementations
   {
     private readonly IUserRepository _repository = userRepository;
 
-    public async Task<string> CreateOneUserAsync(CreateUserDTO body)
+    public async Task<string> CreateOneUserAsync(CreateUserDto body)
     {
       var user = await _repository.GetByEmailAsync(body.Email);
 
@@ -24,6 +24,7 @@ namespace FoodieAPI.Services.Implementations
         body.Phone,
         body.Email,
         body.CPF,
+        body.Avatar,
         DateTime.Now.ToUniversalTime(),
         DateTime.Now.ToUniversalTime()
       );

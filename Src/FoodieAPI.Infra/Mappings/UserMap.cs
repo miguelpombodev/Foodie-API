@@ -12,6 +12,8 @@ namespace FoodieAPI.Infra.Mappings
       builder.HasKey(x => x.Id);
 
       builder.Property(x => x.Id).HasColumnType("UniqueIdentifier");
+      builder.Property(x => x.Avatar).HasColumnName("Avatar").HasColumnType("NVARCHAR").HasMaxLength(150)
+        .IsRequired();
       builder.Property(x => x.Name).HasColumnName("Name").HasColumnType("NVARCHAR").HasMaxLength(200).IsRequired();
       builder.Property(x => x.Phone).HasColumnName("Phone").HasColumnType("VARCHAR").HasMaxLength(12).IsRequired();
       builder.Property(x => x.Email).HasColumnName("Email").HasColumnType("VARCHAR").HasMaxLength(100).IsRequired();
