@@ -17,7 +17,7 @@ namespace FoodieAPI.Web.Controllers
 
     [HttpPost("v1/create")]
     public async Task<IActionResult> CreateOneUserAsync(
-      [FromBody] CreateUserDTO body
+      [FromBody] CreateUserDto body
     )
     {
       body.CPF = _encryptionService.Hash(body.CPF);
