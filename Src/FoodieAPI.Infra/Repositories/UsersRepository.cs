@@ -17,9 +17,11 @@ namespace FoodieAPI.Infra.Repositories
       return userByEmail;
     }
 
-    async public Task<User> GetByIdAsync(Guid id)
+    public async Task<User?> GetByIdAsync(Guid id)
     {
-      throw new NotImplementedException();
+      var userById = await _dataContext.Set<User>().FirstOrDefaultAsync(x => x.Id == id);
+
+      return userById;
     }
 
     public async Task<User?> GetByPhoneAsync(string phone)

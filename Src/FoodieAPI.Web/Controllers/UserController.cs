@@ -36,7 +36,7 @@ namespace FoodieAPI.Web.Controllers
       [FromBody] AuthenticateUserDTO body
     )
     {
-      var user = await _service.GetOneUserAsync(body.Email);
+      var user = await _service.GetOneUserAsync(body);
 
       var token = TokenService.GenerateToken(user);
       var refreshToken = TokenService.GenerateRefreshToken();

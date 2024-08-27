@@ -28,7 +28,7 @@ namespace FoodieAPI.Services.Implementations
       return storeTypesList;
     }
 
-    public async Task<List<ListStoreResponseDTO>> GetStoreListAsync(
+    public async Task<List<ListStoreResponseDto>> GetStoreListAsync(
       string? sortByOptionName,
       decimal? sortByDeliveryFee
       )

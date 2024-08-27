@@ -9,6 +9,7 @@ namespace FoodieAPI.Services.Implementations
   public class UserService(IUserRepository userRepository) : IUserService
   {
     private readonly IUserRepository _repository = userRepository;
+    private const string DefaultAvatarImageName = "default.png";
 
     public async Task<string> CreateOneUserAsync(CreateUserDto body)
     {
@@ -20,11 +21,11 @@ namespace FoodieAPI.Services.Implementations
       }
 
       User formattingUserToDb = new(
+        body.Avatar ?? DefaultAvatarImageName,
         body.Name,
         body.Phone,
         body.Email,
         body.CPF,
-        body.Avatar,
         DateTime.Now.ToUniversalTime(),
         DateTime.Now.ToUniversalTime()
       );
@@ -39,9 +40,12 @@ namespace FoodieAPI.Services.Implementations
       throw new NotImplementedException();
     }
 
-    public async Task<User> GetOneUserAsync(string userEmail)
+    public async Task<User> GetOneUserAsync(AuthenticateUserDTO body)
     {
-      var user = await _repository.GetByEmailAsync(userEmail) ?? throw new IndexOutOfRangeException("Something went wrong with user's email/phone, please be sure");
+      var user = body.Email != null ? await _repository.GetByEmailAsync(body.Email) : await _repository.GetByPhoneAsync(body.Phone);
+
+      if (user == null)
+        throw new IndexOutOfRangeException("Something went wrong with user's email/phone, please be sure");
 
       return user;
     }
