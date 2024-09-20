@@ -26,6 +26,10 @@ namespace FoodieAPI.Web
       var mongoSettings = new AppConfiguration.MongoConfigurationSettings();
       Configuration.GetSection("MongoSettings").Bind(mongoSettings);
       AppConfiguration.MongoSettings = mongoSettings;
+      
+      var smtp = new AppConfiguration.SMTPConfiguration();
+      Configuration.GetSection("SMTPConfiguration").Bind(smtp);
+      AppConfiguration.SMTP = smtp;
     }
 
     public void ConfigureServices(IServiceCollection services)
@@ -41,8 +45,15 @@ namespace FoodieAPI.Web
       services.AddScoped<IStoreService, StoreService>();
       services.AddScoped<IProductsService, ProductService>();
       services.AddScoped<IMiscelaneousService, MiscelaneousService>();
+      services.AddScoped<ICacheService, CacheService>();
       services.AddSingleton<IDataEncryptionService, DataEncryptionService>();
       services.AddSingleton<MongoConfiguration>();
+
+      services.AddStackExchangeRedisCache(options =>
+      {
+        options.Configuration = Configuration.GetConnectionString("RedisConnection");
+        options.InstanceName = "FoodieAPI";
+      });
 
       services.AddCors(options =>
           {
