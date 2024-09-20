@@ -14,6 +14,7 @@ services:
     depends_on:
       - foodie_db
       - foodie_mongo
+      - foodie_redis
 
   foodie_db:
     image: wallghost/sql-server-dbs:latest
@@ -35,6 +36,13 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=foodieMongo123!
     networks:
       - foodie_net
+    depends_on:
+      - foodie_db
+        
+  foodie_redis:
+    image: redis
+    ports:
+      - "6379:6379"
     depends_on:
       - foodie_db
 networks:

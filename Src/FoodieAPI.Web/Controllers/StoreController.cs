@@ -1,3 +1,4 @@
+using FoodieAPI.Domain.DTO.Responses;
 using FoodieAPI.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace FoodieAPI.Web.Controllers;
 public class StoreController : ControllerBase
 {
     private readonly IStoreService _service;
+    private readonly ICacheService _cacheService;
 
-    public StoreController(IStoreService storeService)
+    public StoreController(IStoreService storeService, ICacheService cacheService)
     {
         _service = storeService;
+        _cacheService = cacheService;
     }
 
     [HttpGet("v1/", Name = "Get List of Stores")]
@@ -22,11 +25,23 @@ public class StoreController : ControllerBase
         [FromQuery] decimal? sortByDeliveryFee
     )
     {
+        var storeListCached = _cacheService.GetData<List<ListStoreResponseDto>>("StoreList");
+
+        if (storeListCached is not null)
+        {
+            return StatusCode(
+                StatusCodes.Status200OK,
+                storeListCached
+            );
+        }
+
         var storeList = await _service.GetStoreListAsync(
             sortByOptionName,
             sortByDeliveryFee
         );
 
+        _cacheService.SetData("StoreList", storeList);
+        
         return StatusCode(
             StatusCodes.Status200OK,
             storeList
