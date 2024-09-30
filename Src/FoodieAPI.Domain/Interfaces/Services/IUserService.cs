@@ -1,4 +1,5 @@
 using FoodieAPI.Domain.DTO.Requests;
+using FoodieAPI.Domain.DTO.Services;
 using FoodieAPI.Domain.Entities;
 
 namespace FoodieAPI.Domain.Interfaces.Services
@@ -6,7 +7,7 @@ namespace FoodieAPI.Domain.Interfaces.Services
   public interface IUserService
   {
     Task<List<User>> GetUsersListAsync();
-    Task<string> CreateOneUserAsync(
+    Task<CreateUserReturnDto> CreateOneUserAsync(
       CreateUserDto body
     );
     Task<string> UpdateOneUserAsync();

@@ -36,13 +36,31 @@ public class MiscelaneousController(IMiscelaneousService service)
             [FromBody] CreateBannerDto body
             )
     {
-        var bannerEntityResult = _service.CreateOneBannerAsync(body);
+        var bannerEntityResult = await _service.CreateOneBannerAsync(body);
         
         return StatusCode(
             StatusCodes.Status200OK,
             new
             {
                 Details = "Banner created successfully"
+            }
+        );
+    }
+    
+    [HttpPost("v1/email/create")]
+    [SwaggerOperation(Summary = "Create a new Email Template")]
+    public async Task<ActionResult<string>> CreateOneEmailTemplateAsync
+    (
+        [FromBody] CreateEmailTemplateDto body
+    )
+    {
+        var emailTemplateEntityResult = await _service.CreateOneEmailTemplateAsync(body);
+        
+        return StatusCode(
+            StatusCodes.Status200OK,
+            new
+            {
+                Details = "Email Template created successfully"
             }
         );
     }
