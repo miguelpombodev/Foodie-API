@@ -1,27 +1,39 @@
-using System.Net;
-
-using System.Net.Mail;
+using MailKit.Net.Smtp;
 using FoodieAPI.Infra.Configuration;
-using Serilog;
+using MimeKit;
 
 namespace FoodieAPI.Services.Implementations;
 
 public static class SmtpEmailService
 {
-    private static readonly SmtpClient SmtpClient = new SmtpClient(AppConfiguration.SMTP.Host)
-    {
-        Port = AppConfiguration.SMTP.Port,
-        Credentials = new NetworkCredential(AppConfiguration.SMTP.Username, AppConfiguration.SMTP.Password),
-        EnableSsl = true
-    };
-
-    private static readonly ILogger Logger;
-
     public static bool SendEmail(string to, string subject, string body)
     {
-        Logger.Information($"Sending email to {to} with subject {subject}");
+        var message = new MimeMessage();
+        message.From.Add(new MailboxAddress("Foodie", "no-respond@foodie.com"));
+        message.To.Add(new MailboxAddress("User",to));
+        message.Subject = subject;
+
+
+        var bodyBuilder = new BodyBuilder
+        {
+            HtmlBody = body
+        };
+
+        message.Body = bodyBuilder.ToMessageBody();
         
-        SmtpClient.Send("from@example.com", to, subject, body);
+        using var client = new SmtpClient();
+        try
+        {
+            client.Connect(AppConfiguration.SMTP.Host, AppConfiguration.SMTP.Port, false);
+            client.Authenticate(AppConfiguration.SMTP.Username, AppConfiguration.SMTP.Password);
+            client.Send(message);
+            client.Disconnect(true);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
         return true;
     }
