@@ -2,6 +2,7 @@ using FoodieAPI.Domain;
 using FoodieAPI.Domain.DTO.Requests;
 using FoodieAPI.Domain.Interfaces.Services;
 using FoodieAPI.Services;
+using FoodieAPI.Services.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -10,11 +11,12 @@ namespace FoodieAPI.Web.Controllers
 {
   [Route("account")]
   [ApiController]
-  public class UserController(IUserService userService, IDataEncryptionService encryptionService) : ControllerBase
+  public class UserController(IUserService userService, IDataEncryptionService encryptionService, IMiscelaneousService miscelaneousService) : ControllerBase
   {
     private readonly IDataEncryptionService _encryptionService = encryptionService;
     private readonly IUserService _service = userService;
-
+    private readonly IMiscelaneousService _miscelaneousService = miscelaneousService;
+    
     [HttpPost("v1/create")]
     public async Task<IActionResult> CreateOneUserAsync(
       [FromBody] CreateUserDto body
@@ -22,12 +24,18 @@ namespace FoodieAPI.Web.Controllers
     {
       body.CPF = _encryptionService.Hash(body.CPF);
 
-      var result = await _service.CreateOneUserAsync(
+      var createdUserResult = await _service.CreateOneUserAsync(
         body
       );
+      
+      var getCreateUserEmailTemplateContent = await _miscelaneousService.GetOneEmailTemplateAsync("create-email-template");
+      SmtpEmailService.SendEmail(createdUserResult.UserEmail, "Welcome to Foodie!", getCreateUserEmailTemplateContent.EmailTemplateContent.Replace("{{username}}", createdUserResult.UserName));
 
       return StatusCode(
-        StatusCodes.Status200OK, new { result }
+        StatusCodes.Status200OK, new
+        {
+          email = createdUserResult.UserEmail
+        }
       );
     }
 

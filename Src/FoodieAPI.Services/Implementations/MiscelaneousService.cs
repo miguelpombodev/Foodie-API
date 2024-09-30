@@ -1,4 +1,5 @@
 using FoodieAPI.Domain.DTO.Requests;
+using FoodieAPI.Domain.DTO.Services;
 using FoodieAPI.Domain.Entities;
 using FoodieAPI.Domain.Interfaces.Repositories;
 using FoodieAPI.Domain.Interfaces.Services;
@@ -21,5 +22,19 @@ public class MiscelaneousService(IMiscelaneousRepository repository) : IMiscelan
         var bannerEntityResult = await _repository.CreateOneBannerAsync(bannerBody);
 
         return bannerEntityResult ? "Banner created successfully": "Something went wrong while creating the banner";
+    }
+    
+    public async Task<string> CreateOneEmailTemplateAsync(CreateEmailTemplateDto emailTemplateBody)
+    {
+        var bannerEntityResult = await _repository.CreateOneEmailTemplateAsync(emailTemplateBody);
+
+        return bannerEntityResult ? "Email Template created successfully": "Something went wrong while creating the email template";
+    }
+    
+    public async Task<EmailTemplateMongoEntity> GetOneEmailTemplateAsync(string emailTemplateName)
+    {
+        var emailTemplateEntityResult = await _repository.GetOneEmailContentByNameAsync(emailTemplateName);
+
+        return emailTemplateEntityResult;
     }
 }
