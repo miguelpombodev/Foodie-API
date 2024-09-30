@@ -1,5 +1,6 @@
 using FoodieAPI.Domain;
 using FoodieAPI.Domain.DTO.Requests;
+using FoodieAPI.Domain.DTO.Services;
 using FoodieAPI.Domain.Entities;
 using FoodieAPI.Domain.Interfaces.Repositories;
 using FoodieAPI.Domain.Interfaces.Services;
@@ -11,7 +12,7 @@ namespace FoodieAPI.Services.Implementations
     private readonly IUserRepository _repository = userRepository;
     private const string DefaultAvatarImageName = "default.png";
 
-    public async Task<string> CreateOneUserAsync(CreateUserDto body)
+    public async Task<CreateUserReturnDto> CreateOneUserAsync(CreateUserDto body)
     {
       var user = await _repository.GetByEmailAsync(body.Email);
 
@@ -30,9 +31,10 @@ namespace FoodieAPI.Services.Implementations
         DateTime.Now.ToUniversalTime()
       );
 
-      await _repository.SaveAsync(formattingUserToDb);
-
-      return "success";
+      var createdUser = await _repository.SaveAsync(formattingUserToDb);
+      
+      CreateUserReturnDto userCreatedReturn = new(createdUser.Email, createdUser.Name);
+      return userCreatedReturn;
     }
 
     public Task<string> DeleteOneUserAsync()
