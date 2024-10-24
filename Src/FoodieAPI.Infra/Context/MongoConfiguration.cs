@@ -10,7 +10,7 @@ public class MongoConfiguration
     
     public MongoConfiguration()
     {
-        var mongoClient = new MongoClient($"mongodb://{AppConfiguration.MongoSettings.MongoUser}:{AppConfiguration.MongoSettings.MongoPassword}@{AppConfiguration.MongoSettings.MongoHost}:{AppConfiguration.MongoSettings.MongoPort}");
+        var mongoClient = new MongoClient($"mongodb://{AppConfiguration.MongoSettings.MongoUser}:{AppConfiguration.MongoSettings.MongoPassword}@{AppConfiguration.MongoSettings.MongoHost}:{AppConfiguration.MongoSettings.MongoPort}");;
         _database = mongoClient.GetDatabase(AppConfiguration.MongoSettings.DatabaseName);
     }
 
@@ -18,4 +18,5 @@ public class MongoConfiguration
     {
         return _database.GetCollection<T>(collectionName);
     }
+    
 }

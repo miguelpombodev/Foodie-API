@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace FoodieAPI.Web.Controllers;
 
 [Route("documents")]
+[ApiController]
 public class MiscelaneousController(IMiscelaneousService service)
     : ControllerBase
 {
@@ -32,9 +33,9 @@ public class MiscelaneousController(IMiscelaneousService service)
     [HttpPost("v1/banners/create")]
     [SwaggerOperation(Summary = "Create a new Banner")]
     public async Task<ActionResult<string>> CreateOneBannerAsync
-        (
-            [FromBody] CreateBannerDto body
-            )
+    (
+        [FromBody] CreateBannerDto body
+    )
     {
         var bannerEntityResult = await _service.CreateOneBannerAsync(body);
         
