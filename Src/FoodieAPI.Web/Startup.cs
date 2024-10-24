@@ -134,9 +134,10 @@ namespace FoodieAPI.Web
       if (env.IsDevelopment())
       {
         AppConfiguration.IsDevelopment = true;
-        app.UseSwagger();
-        app.UseSwaggerUI();
       }
+      
+      app.UseSwagger();
+      app.UseSwaggerUI();
       app.UseExceptionHandler();
 
       app.UseHttpsRedirection();
