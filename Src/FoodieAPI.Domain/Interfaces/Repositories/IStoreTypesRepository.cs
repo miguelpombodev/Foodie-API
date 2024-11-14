@@ -1,7 +1,7 @@
 namespace FoodieAPI.Domain.Interfaces.Repositories
 {
-    public interface IStoreTypesRepository
-    {
-         
-    }
+  public interface IStoreTypesRepository
+  {
+
+  }
 }

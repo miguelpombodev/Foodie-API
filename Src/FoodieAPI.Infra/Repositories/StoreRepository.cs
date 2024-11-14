@@ -23,9 +23,16 @@ public class StoreRepository : IStoreRepository
     return storeCategoriesList;
   }
 
-  public async Task<List<StoreType>> GetStoreTypesListAsync()
+  public async Task<List<StoreType>> GetStoreTypesOnlyWithShortAvatarListAsync()
   {
     var storeTypesList = await _dataContext.Set<StoreType>().Where(st => st.Avatar != null).ToListAsync();
+
+    return storeTypesList;
+  }
+
+  public async Task<List<StoreType>> GetStoreTypesOnlyWithLongAvatarListAsync()
+  {
+    var storeTypesList = await _dataContext.Set<StoreType>().Where(st => st.AvatarLongImage != null).ToListAsync();
 
     return storeTypesList;
   }
@@ -51,7 +58,7 @@ public class StoreRepository : IStoreRepository
         }
     );
 
-    if (sortByOptionName != null)
+    if ( sortByOptionName != null )
     {
       joinStoresList = sortByOptionName switch
       {
@@ -62,7 +69,7 @@ public class StoreRepository : IStoreRepository
       };
     }
 
-    if (sortByDeliveryFee != null)
+    if ( sortByDeliveryFee != null )
     {
       joinStoresList = joinStoresList.Where(query => query.storeDeliveryFee == sortByDeliveryFee);
     }

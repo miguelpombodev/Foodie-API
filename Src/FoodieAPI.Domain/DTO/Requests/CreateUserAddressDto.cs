@@ -8,8 +8,8 @@ public class CreateUserAddressDto(
     string? userAddressComplement,
     bool isDefault = false)
 {
-    public string UserAddress { get; } = Strings.Trim(userAddress);
-    public string UserAddressNumber { get; } = Strings.Trim(userAddressNumber);
-    public string? UserAddressComplement { get; } = Strings.Trim(userAddressComplement ?? null);
-    public bool IsDefault { get; } = isDefault;
+  public string UserAddress { get; } = Strings.Trim(userAddress);
+  public string UserAddressNumber { get; } = Strings.Trim(userAddressNumber);
+  public string? UserAddressComplement { get; } = Strings.Trim(userAddressComplement ?? null);
+  public bool IsDefault { get; } = isDefault;
 }

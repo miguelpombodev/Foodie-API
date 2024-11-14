@@ -6,8 +6,8 @@ namespace FoodieAPI.Domain.Interfaces.Services;
 
 public interface IMiscelaneousService
 {
-    Task<List<BannerMongoEntity>> GetAllBannersAsync();
-    Task<string> CreateOneBannerAsync(CreateBannerDto banner);
-    Task<string> CreateOneEmailTemplateAsync(CreateEmailTemplateDto emailTemplateBody);
-    Task<EmailTemplateMongoEntity> GetOneEmailTemplateAsync(string emailTemplateName);
+  Task<List<BannerMongoEntity>> GetAllBannersAsync();
+  Task<string> CreateOneBannerAsync(CreateBannerDto banner);
+  Task<string> CreateOneEmailTemplateAsync(CreateEmailTemplateDto emailTemplateBody);
+  Task<EmailTemplateMongoEntity> GetOneEmailTemplateAsync(string emailTemplateName);
 }

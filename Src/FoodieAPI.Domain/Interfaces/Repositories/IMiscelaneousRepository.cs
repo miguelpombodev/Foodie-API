@@ -6,8 +6,8 @@ namespace FoodieAPI.Domain.Interfaces.Repositories;
 
 public interface IMiscelaneousRepository
 {
-    Task<List<BannerMongoEntity>> GetAllBannersAsync();
-    Task<bool> CreateOneBannerAsync(CreateBannerDto banner);
-    Task<bool> CreateOneEmailTemplateAsync(CreateEmailTemplateDto emailTemplate);
-    Task<EmailTemplateMongoEntity> GetOneEmailContentByNameAsync(string emailTemplateName);
+  Task<List<BannerMongoEntity>> GetAllBannersAsync();
+  Task<bool> CreateOneBannerAsync(CreateBannerDto banner);
+  Task<bool> CreateOneEmailTemplateAsync(CreateEmailTemplateDto emailTemplate);
+  Task<EmailTemplateMongoEntity> GetOneEmailContentByNameAsync(string emailTemplateName);
 }

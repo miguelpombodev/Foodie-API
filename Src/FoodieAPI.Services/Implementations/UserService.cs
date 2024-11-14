@@ -16,7 +16,7 @@ namespace FoodieAPI.Services.Implementations
     {
       var user = await _repository.GetByEmailAsync(body.Email);
 
-      if (user != null)
+      if ( user != null )
       {
         throw new IndexOutOfRangeException("Something went wrong with user's email/phone, please be sure");
       }
@@ -32,7 +32,7 @@ namespace FoodieAPI.Services.Implementations
       );
 
       var createdUser = await _repository.SaveAsync(formattingUserToDb);
-      
+
       CreateUserReturnDto userCreatedReturn = new(createdUser.Email, createdUser.Name);
       return userCreatedReturn;
     }
@@ -46,7 +46,7 @@ namespace FoodieAPI.Services.Implementations
     {
       var user = body.Email != null ? await _repository.GetByEmailAsync(body.Email) : await _repository.GetByPhoneAsync(body.Phone);
 
-      if (user == null)
+      if ( user == null )
         throw new IndexOutOfRangeException("Something went wrong with user's email/phone, please be sure");
 
       return user;
@@ -56,7 +56,7 @@ namespace FoodieAPI.Services.Implementations
     {
       var user = await _repository.GetByPhoneAsync(userPhone);
 
-      if (user == null)
+      if ( user == null )
         throw new IndexOutOfRangeException("Something went wrong with user's email/phone, please be sure");
 
       return user;
@@ -65,8 +65,8 @@ namespace FoodieAPI.Services.Implementations
     public Task<IList<UserAddresses>?> GetUserAddressesAsync(Guid id)
     {
       var userAddresses = _repository.GetUserAddressesAsync(id);
-      
-      if (userAddresses == null)
+
+      if ( userAddresses == null )
         throw new IndexOutOfRangeException("There's no user's addresses");
 
       return userAddresses;
@@ -83,9 +83,9 @@ namespace FoodieAPI.Services.Implementations
         DateTime.Now.ToUniversalTime(),
         DateTime.Now.ToUniversalTime()
       );
-      
+
       var userAddressId = await _repository.SaveUserAddressAsync(userAddressParsed);
-      
+
       return userAddressId;
     }
 

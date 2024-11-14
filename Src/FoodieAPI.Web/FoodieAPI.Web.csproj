@@ -28,4 +28,8 @@
     <ProjectReference Include="..\FoodieAPI.Services\FoodieAPI.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\DTOs\" />
+  </ItemGroup>
+
 </Project>
