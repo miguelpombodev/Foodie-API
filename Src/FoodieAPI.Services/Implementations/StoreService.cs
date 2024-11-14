@@ -1,3 +1,4 @@
+using FoodieAPI.Domain.DTO.Requests;
 using FoodieAPI.Domain.DTO.Responses;
 using FoodieAPI.Domain.Entities;
 using FoodieAPI.Domain.Interfaces.Repositories;
@@ -21,9 +22,18 @@ namespace FoodieAPI.Services.Implementations
       return categoriesList;
     }
 
-    public async Task<List<StoreType>> GetStoreCategoriesTypesListAsync()
+    public async Task<List<StoreType>> GetStoreCategoriesTypesListAsync(AvatarImageType body)
     {
-      var storeTypesList = await _repository.GetStoreTypesListAsync();
+      List<StoreType> storeTypesList;
+
+      if ( body == AvatarImageType.LongImage )
+      {
+        storeTypesList = await _repository.GetStoreTypesOnlyWithLongAvatarListAsync();
+
+        return storeTypesList;
+      }
+
+      storeTypesList = await _repository.GetStoreTypesOnlyWithShortAvatarListAsync();
 
       return storeTypesList;
     }

@@ -1,29 +1,30 @@
-using FoodieAPI.Domain.Entities;
 using FoodieAPI.Infra.Configuration;
 using FoodieAPI.Infra.Mappings;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodieAPI.Infra.Context
+namespace FoodieAPI.Infra.Context;
+
+public class DataContext : DbContext
 {
-  public class DataContext : DbContext
+  protected override void OnConfiguring(DbContextOptionsBuilder options)
   {
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-      options.UseSqlServer(AppConfiguration.MainDatabaseConnectionString);
-      
-      if(AppConfiguration.IsDevelopment)
-        options.LogTo(Console.WriteLine);
-    }
+    options.UseSqlServer(AppConfiguration.MainDatabaseConnectionString);
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      modelBuilder.ApplyConfiguration(new UserMap());
-      modelBuilder.ApplyConfiguration(new UserAddressesMap());
-      modelBuilder.ApplyConfiguration(new StoreCategoryMap());
-      modelBuilder.ApplyConfiguration(new StoreTypeMap());
-      modelBuilder.ApplyConfiguration(new StoreMap());
-      modelBuilder.ApplyConfiguration(new ProductMap());
-    }
+    if ( AppConfiguration.IsDevelopment )
+      options.LogTo(Console.WriteLine);
+  }
 
+
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    modelBuilder.ApplyConfiguration(new ProductMap());
+    modelBuilder.ApplyConfiguration(new OrderMap());
+    modelBuilder.ApplyConfiguration(new CartMap());
+    modelBuilder.ApplyConfiguration(new CartItemMap());
+    modelBuilder.ApplyConfiguration(new UserMap());
+    modelBuilder.ApplyConfiguration(new UserAddressesMap());
+    modelBuilder.ApplyConfiguration(new StoreCategoryMap());
+    modelBuilder.ApplyConfiguration(new StoreTypeMap());
+    modelBuilder.ApplyConfiguration(new StoreMap());
   }
 }

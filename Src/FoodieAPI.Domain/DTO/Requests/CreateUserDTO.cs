@@ -7,7 +7,7 @@ namespace FoodieAPI.Domain.DTO.Requests
     [Required]
     [StringLength(200, MinimumLength = 3)]
     public string Name { get; set; } = name;
-    
+
     [StringLength(150)]
     public string? Avatar { get; set; } = avatar ?? null;
 

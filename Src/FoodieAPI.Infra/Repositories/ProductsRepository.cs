@@ -43,7 +43,7 @@ public class ProductsRepository(DataContext dataContext) : IProductRepository
       param => param.storeJoinProduct.storeTypeJoinStore.storeType.Name == storeTypeName
     );
 
-    if (categoryTitle != null)
+    if ( categoryTitle != null )
     {
       customProductsQuery = customProductsQuery.Where(param => param.storeCategory.Title == categoryTitle);
     }
