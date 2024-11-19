@@ -1,6 +1,28 @@
 version: "3"
 
 services:
+  foodie_apm:
+    image: docker.elastic.co/apm/apm-server-oss:7.13.0
+    volumes:
+      - ./apm/apm-server.yml:/usr/share/apm-server/apm-server.yml
+    environment:
+      - apm-server.instrumentation.capture_headers=false
+      - apm-server.sampling.rate=0.05
+      - apm-server.logging.level=error
+      - apm-server.secret_token=new-secret-token
+    healthcheck:
+      test: curl --fail http://localhost:8200/ || exit 1
+      interval: 10s
+      retries: 3
+    ports:
+      - "8200:8200"
+    restart: on-failure
+    depends_on:
+      - foodie_kibana
+      - foodie_elastic
+    networks:
+      - foodie_net
+
   foodie_api_container:
     build:
       context: .
@@ -9,12 +31,21 @@ services:
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - ELASTIC_APM_SERVER_URLS=http://foodie_apm:8200
+      - ELASTIC_APM_SECRET_TOKEN=new-secret-token
+      - ELASTIC_APM_SERVICE_NAME=FoodieBackendApp
+      - ELASTIC_APM_ENVIRONMENT=Production
     networks:
       - foodie_net
     depends_on:
-      - foodie_db
-      - foodie_mongo
-      - foodie_redis
+      foodie_apm:
+        condition: service_healthy
+      foodie_db:
+        condition: service_started
+      foodie_mongo:
+        condition: service_started
+      foodie_redis:
+        condition: service_started
 
   foodie_db:
     image: wallghost/sql-server-dbs:latest
@@ -27,7 +58,7 @@ services:
       - foodie_net
     volumes:
       - sqlserver_data:/var/opt/mssql
-  
+
   foodie_mongo:
     image: mongo:latest
     ports:
@@ -43,7 +74,7 @@ services:
       - foodie_db
     volumes:
       - mongo_data:/data/db
-        
+
   foodie_redis:
     image: redis
     ports:
@@ -52,10 +83,116 @@ services:
       - foodie_net
     depends_on:
       - foodie_db
+
+  foodie_prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    restart: on-failure
+    networks:
+      - foodie_net
+
+  foodie_grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    restart: on-failure
+    depends_on:
+      - foodie_prometheus
+    networks:
+      - foodie_net
+
+  foodie_elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.0
+    environment:
+      - discovery.type=single-node
+      - node.name=elasticsearch
+      - cluster.name=es-docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+      - http.cors.enabled=true
+      - http.cors.allow-origin="*"
+      - http.max_content_length=100mb
+      - thread_pool.search.size=10
+      - thread_pool.write.size=5
+      - cluster.routing.allocation.disk.watermark.low=80%
+      - cluster.routing.allocation.disk.watermark.high=90%
+      - cluster.routing.allocation.disk.watermark.flood_stage=95%
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    restart: on-failure
+    networks:
+      - foodie_net
+
+  foodie_kibana:
+    image: docker.elastic.co/kibana/kibana:7.13.0
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_URL=http://foodie_elastic:9200
+      - ELASTICSEARCH_HOSTS='["http://foodie_elastic:9200"]'
+      - ELASTICSEARCH_HOSTS=http://foodie_elastic:9200
+      - SERVER_MAX_PAYLOAD_BYTES=1048576
+      - XPACK.MONITORING.BULK.MAX_SIZE=1000
+    restart: on-failure
+    depends_on:
+      - foodie_elastic
+    networks:
+      - foodie_net
+
+  foodie_metricbeat:
+    image: docker.elastic.co/beats/metricbeat:7.13.0
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./beats/metric/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+    restart: on-failure
+    command:
+      [
+        "sh",
+        "-c",
+        "while ! curl -s http://foodie_kibana:5601/api/status; do sleep 5; done; metricbeat -e -strict.perms=false",
+      ]
+    depends_on:
+      - foodie_kibana
+      - foodie_elastic
+    networks:
+      - foodie_net
+
+  foodie_heartbeat:
+    image: docker.elastic.co/beats/heartbeat:7.13.0
+    volumes:
+      - ./beats/heartbeat/heartbeat.yml:/usr/share/heartbeat/heartbeat.yml
+    environment:
+      - setup.kibana.host=foodie_kibana:5601
+    command:
+      [
+        "sh",
+        "-c",
+        "while ! curl -s http://foodie_kibana:5601/api/status; do sleep 5; done; heartbeat -e -strict.perms=false",
+      ]
+    depends_on:
+      - foodie_kibana
+      - foodie_elastic
+    networks:
+      - foodie_net
+
 networks:
   foodie_net:
     driver: bridge
 
 volumes:
   sqlserver_data:
-  mongo_data:   
+  mongo_data:

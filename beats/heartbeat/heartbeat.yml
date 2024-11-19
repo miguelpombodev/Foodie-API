@@ -1,0 +1,23 @@
+heartbeat.monitors:
+  - type: http
+    schedule: '@every 5s'
+    urls:
+      - http://foodie_elastic:9200
+      - http://foodie_kibana:5601
+      - http://foodie_api_backend:8080
+
+  - type: icmp
+    schedule: '@every 5s'
+    hosts:
+      - foodie_elastic
+      - foodie_kibana
+      - apm
+      - metricbeat
+
+processors:
+  - add_cloud_metadata: ~
+
+output.elasticsearch:
+  hosts: 'foodie_elastic:9200'
+  username: 'elastic'
+  password: 'changeme'

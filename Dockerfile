@@ -12,4 +12,5 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /foodie
 COPY --from=build-env /foodie/app .
+
 ENTRYPOINT ["dotnet", "FoodieAPI.Web.dll"]

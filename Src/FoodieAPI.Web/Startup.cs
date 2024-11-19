@@ -1,4 +1,5 @@
 using System.Text;
+using Elastic.Apm.NetCoreAll;
 using FoodieAPI.Domain;
 using FoodieAPI.Domain.Interfaces.Repositories;
 using FoodieAPI.Domain.Interfaces.Services;
@@ -148,6 +149,8 @@ public class Startup(IConfiguration configuration)
     app.UseExceptionHandler();
 
     app.UseHttpsRedirection();
+
+    app.UseAllElasticApm(Configuration);
 
     app.UseRouting();
 

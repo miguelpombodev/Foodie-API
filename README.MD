@@ -2,7 +2,7 @@
 # ASPNET CORE - Foodie API
 
 This is a personal project, cloning the flow of the [**IFood app**](https://www.ifood.com.br/). With the purpose of studying and practicing some .NET skills, SOLID and Clean Code development topics.
-Reminder: this is just the API, the mobile app is in this location: [FooodieApp](https://github.com/miguelpombodev/foodie-app-expo)
+Reminder: this is just the API, the mobile app is in this location: [FoodieApp](https://github.com/miguelpombodev/foodie-app-expo)
 ## Badges
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://choosealicense.com/licenses/mit/)
@@ -13,6 +13,9 @@ Reminder: this is just the API, the mobile app is in this location: [FooodieApp]
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white)
+![Elastic]( 	https://img.shields.io/badge/elastic%20cloud-005571?style=for-the-badge&logo=elasticcloud&logoColor=white)
 
 ## This project uses
 
@@ -21,9 +24,11 @@ Reminder: this is just the API, the mobile app is in this location: [FooodieApp]
 - JWT Authentication;
 - Serilog;
 - xUnit;
-- Github Actions
+- GitHub Actions
 - MongoDB
 - Redis
+- Grafana
+- Prometheus
 
 ## Cloning and starting the project with Docker Compose
 Clone the project with SSH
@@ -53,7 +58,7 @@ Then if you choose to use Docker Compose, now just run:
 ```
 So all the services will be created as needed, however the ASPNETCORE_ENVIRONMENT __env var__ is set to **"Production"** value
 
-### With StandAlones
+### With StandAlone
 Another way is to use a standalone container, to use it, just build your own SQL Server Container in this way:
 ```bash
   docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=<STRONG_PASSWORD>" -p 1433:1433 -d --name <CONTAINER_NAME> mcr.microsoft.com/mssql/server:2022-latest
@@ -69,6 +74,18 @@ And then check if it is started, with the command:
 Now you can build and start the project with:
 ```bash
   dotnet build && dotnet run ./Foddie-API.Web/Foddie-API.Web.csproj
+```
+
+## Common Issues ⚠️
+### <ins>Error on creating Elastic Search container with Docker Compose [For Linux Users]</ins>
+In case, the following errors pops up when Docker Composes tries to create ElasticSearch container:
+```sh
+bootstrap check failure [1] of [1]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+```
+
+Execute the command below:
+```sh
+sysctl -w vm.max_map_count=262144
 ```
 
 ## License
